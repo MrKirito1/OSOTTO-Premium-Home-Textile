@@ -111,6 +111,11 @@
 .nav-scrolled { background: rgba(243,238,230,.94); color: hsl(var(--foreground)); border-color: rgba(75,59,45,.15); box-shadow: 0 8px 30px rgba(51,38,27,.06); }
 .hero-image { animation: heroBreath 16s ease-in-out infinite alternate; }
 @keyframes heroBreath { from { transform: scale(1.01); } to { transform: scale(1.065); } }
+@keyframes heroWordmarkIn {
+  from { opacity: 0; transform: translateY(22px) scale(.96); letter-spacing: .34em; }
+  to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: .18em; }
+}
+.hero-wordmark { animation: heroWordmarkIn 1.4s cubic-bezier(.22,1,.36,1) 1.9s both; }
 @keyframes openingOut { to { opacity: 0; visibility: hidden; } }
 @keyframes lineIn { from { transform: scaleX(0); transform-origin: left; } to { transform: scaleX(1); } }
 .opening-exit { animation: openingOut .65s ease 1.25s forwards; }
@@ -124,4 +129,5 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
+  .hero-wordmark { opacity: 1; transform: none; animation: none; }
 }

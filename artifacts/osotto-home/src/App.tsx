@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, ChevronUp, Instagram, Menu, Minus, Plus, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Instagram, Menu, Minus, Plus, X } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -167,9 +167,42 @@ function Footer() {
 }
 
 function ProductModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
+  const [activeImage, setActiveImage] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const images = product?.images ?? (product ? [product.image] : []);
+
+  useEffect(() => {
+    setActiveImage(0);
+    touchStartX.current = null;
+  }, [product?.id]);
+
   if (!product) return null;
+  const goToImage = (index: number) => {
+    setActiveImage((index + images.length) % images.length);
+  };
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    const delta = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(delta) < 40 || images.length < 2) return;
+    goToImage(activeImage + (delta > 0 ? 1 : -1));
+  };
+
   return <div className="fixed inset-0 z-[80] flex items-end justify-center bg-[#2b241f]/70 p-0 backdrop-blur-sm md:items-center md:p-8" role="dialog" aria-modal="true" aria-label={`${product.weight} ürün detayları`}><div className="relative grid max-h-[92vh] w-full max-w-[980px] overflow-auto bg-[#f3eee6] md:grid-cols-2">
-    <div className="relative min-h-[330px] md:min-h-[590px]"><img src={product.image} alt={product.name} className="absolute inset-0 h-full w-full object-cover" /><span className="absolute left-5 top-5 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[#2b241f]">{product.tone}</span></div>
+    <div className="relative min-h-[330px] overflow-hidden md:min-h-[590px]" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <img src={images[activeImage]} alt={`${product.name} ${activeImage + 1}. fotoğraf`} className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300" />
+      <span className="absolute left-5 top-5 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[#2b241f]">{product.tone}</span>
+      {images.length > 1 && <>
+        <button type="button" onClick={() => goToImage(activeImage - 1)} className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#f3eee6]/85 text-[#2b241f] transition-colors hover:bg-[#f3eee6]" aria-label="Önceki ürün fotoğrafı" data-testid="button-previous-product-image"><ChevronLeft size={18} strokeWidth={1.3} /></button>
+        <button type="button" onClick={() => goToImage(activeImage + 1)} className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#f3eee6]/85 text-[#2b241f] transition-colors hover:bg-[#f3eee6]" aria-label="Sonraki ürün fotoğrafı" data-testid="button-next-product-image"><ChevronRight size={18} strokeWidth={1.3} /></button>
+        <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-[#2b241f]/55 px-3 py-2 backdrop-blur-sm" aria-label={`${activeImage + 1} / ${images.length}`}>
+          {images.map((image, index) => <button type="button" key={image} onClick={() => goToImage(index)} className={`h-1.5 rounded-full transition-all ${index === activeImage ? 'w-5 bg-[#f3eee6]' : 'w-1.5 bg-[#f3eee6]/50'}`} aria-label={`${index + 1}. fotoğrafı göster`} aria-current={index === activeImage} />)}
+        </div>
+      </>}
+    </div>
     <div className="relative p-7 md:p-12"><button onClick={onClose} className="absolute right-5 top-5 text-[#2b241f]/65 hover:text-[#b86b4b]" aria-label="Detay penceresini kapat" data-testid="button-close-modal"><X size={21} strokeWidth={1.2} /></button><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">{product.weight} / OSOTTO</span><h2 className="font-display mt-7 text-5xl leading-[.88] tracking-[-.035em] text-[#2b241f] md:text-6xl">Sizin için<br /><i className="font-normal text-[#b86b4b]">doğru</i> ağırlık.</h2><p className="mt-8 text-[13px] leading-[1.8] text-[#65584d]">{product.description} Her dokunuşta aynı titizlik, her uykuda başka bir huzur.</p><div className="my-9 border-y border-[#2b241f]/15 py-5">{product.details.map((detail) => <div key={detail} className="flex items-center gap-3 py-2 font-mono-ui text-[10px] uppercase tracking-[.08em] text-[#65584d]"><Check size={13} className="text-[#b86b4b]" strokeWidth={1.4} /> {detail}</div>)}</div><a href={WHATSAPP_MESSAGE_URL} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-3 bg-[#2b241f] px-5 py-4 font-mono-ui text-[10px] uppercase tracking-[.14em] text-[#f3eee6] transition-colors hover:bg-[#b86b4b]" data-testid={`button-whatsapp-${product.id}`}>WhatsApp’tan bilgi alın <ArrowUpRight size={15} strokeWidth={1.2} /></a><a href="#iletisim" onClick={onClose} className="mt-4 flex items-center justify-center border border-[#2b241f]/25 px-5 py-4 font-mono-ui text-[10px] uppercase tracking-[.14em] text-[#2b241f] hover:border-[#b86b4b]" data-testid={`button-quote-${product.id}`}>Teklif isteyin</a></div>
   </div></div>;
 }

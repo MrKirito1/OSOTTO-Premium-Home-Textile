@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "OSOTTO Premium Home Textile"
+description = "OSOTTO için premium ev tekstili koleksiyonlarını sergileyen, ürün detayları ve iletişim akışı içeren responsive marka web sitesi."
+version = "1.0.0"
+id = "artifacts/osotto-home"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21224
+
+[services.development]
+run = "pnpm --filter @workspace/osotto-home run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/osotto-home", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/osotto-home/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21224"
+BASE_PATH = "/"

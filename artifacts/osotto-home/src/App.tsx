@@ -10,7 +10,7 @@ import { products, type Product } from '@/data/products';
 import './index.css';
 
 const queryClient = new QueryClient();
-const WHATSAPP_NUMBER = '905555555555';
+const WHATSAPP_NUMBER = '905431945858';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 const WHATSAPP_MESSAGE_URL = `${WHATSAPP_URL}?text=${encodeURIComponent('OSOTTO koleksiyonu hakkında bilgi almak istiyorum.')}`;
 
@@ -45,8 +45,11 @@ function OpeningReveal({ onDone }: { onDone: () => void }) {
   );
 }
 
-function Nav({ onMenu }: { onMenu: () => void }) {
+const weightOptions = ['Tümü', '4.5 KG', '5 KG', '6 KG', '7 KG'];
+
+function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionSelect: (weight: string) => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [collectionOpen, setCollectionOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -58,24 +61,30 @@ function Nav({ onMenu }: { onMenu: () => void }) {
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
         <a href="#anasayfa" aria-label="OSOTTO ana sayfa" data-testid="link-home"><BrandMark light={!scrolled} /></a>
         <div className="hidden items-center gap-9 md:flex">
-          {links.map(([label, href]) => <a key={href} href={href} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid={`link-${label}`}>{label}</a>)}
+          <button type="button" onClick={() => { setCollectionOpen((open) => !open); document.getElementById('koleksiyon')?.scrollIntoView({ behavior: 'smooth' }); }} className="flex items-center gap-1 font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" aria-expanded={collectionOpen} data-testid="link-Koleksiyon">Koleksiyon <ChevronDown size={13} strokeWidth={1.2} className={`transition-transform ${collectionOpen ? 'rotate-180' : ''}`} /></button>
+          {links.slice(1).map(([label, href]) => <a key={href} href={href} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid={`link-${label}`}>{label}</a>)}
         </div>
         <div className="flex items-center gap-5">
           <a href="#iletisim" className="hidden border-b border-current pb-1 font-mono-ui text-[10px] uppercase tracking-[.16em] md:block" data-testid="link-quote-nav">Teklif alın</a>
           <button onClick={onMenu} className="md:hidden" aria-label="Menüyü aç" data-testid="button-open-menu"><Menu size={21} strokeWidth={1.4} /></button>
         </div>
       </div>
+      {collectionOpen && <div className="absolute left-1/2 top-full mt-3 w-[min(92vw,540px)] -translate-x-1/2 border border-[#2b241f]/10 bg-[#f3eee6]/95 p-5 text-[#2b241f] shadow-[0_18px_50px_rgba(51,38,27,.14)] backdrop-blur-md">
+        <div className="mb-4 flex items-end justify-between gap-4"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#b86b4b]">OSOTTO koleksiyonu</span><p className="mt-2 font-display text-2xl">Ağırlığını seç.</p></div><button type="button" onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]">Kapat</button></div>
+        <div className="grid grid-cols-5 gap-2">{weightOptions.map((weight) => <button type="button" key={weight} onClick={() => { onCollectionSelect(weight); setCollectionOpen(false); }} className="border border-[#2b241f]/15 px-2 py-4 font-mono-ui text-[9px] uppercase tracking-[.08em] transition-colors hover:border-[#b86b4b] hover:bg-[#b86b4b] hover:text-[#f3eee6]" data-testid={`nav-weight-${weight.replace(/\W/g, '')}`}>{weight}</button>)}</div>
+      </div>}
     </nav>
   );
 }
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({ open, onClose, onCollectionSelect }: { open: boolean; onClose: () => void; onCollectionSelect: (weight: string) => void }) {
   if (!open) return null;
   return <div className="fixed inset-0 z-[60] flex flex-col bg-[#2b241f] px-6 py-6 text-[#f3eee6] md:hidden">
     <div className="flex items-center justify-between"><BrandMark light /><button onClick={onClose} aria-label="Menüyü kapat" data-testid="button-close-menu"><X size={23} strokeWidth={1.4} /></button></div>
     <div className="mt-28 flex flex-col gap-7">
-    {[['Koleksiyon', '#koleksiyon'], ['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim']].map(([label, href], index) =>
-        <a key={href} href={href} onClick={onClose} className="font-display text-5xl" data-testid={`mobile-link-${index}`}>{label}</a>)}
+    <div><a href="#koleksiyon" onClick={onClose} className="font-display text-5xl" data-testid="mobile-link-collection">Koleksiyon</a><div className="mt-5 flex flex-wrap gap-2">{weightOptions.map((weight) => <button type="button" key={weight} onClick={() => { onCollectionSelect(weight); onClose(); }} className="border border-[#f3eee6]/25 px-3 py-2 font-mono-ui text-[9px] uppercase tracking-[.08em]" data-testid={`mobile-weight-${weight.replace(/\W/g, '')}`}>{weight}</button>)}</div></div>
+    {[['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim']].map(([label, href], index) =>
+        <a key={href} href={href} onClick={onClose} className="font-display text-5xl" data-testid={`mobile-link-${index + 1}`}>{label}</a>)}
     </div>
     <div className="mt-auto flex items-end justify-between"><span className="max-w-[190px] font-mono-ui text-[9px] uppercase leading-relaxed tracking-[.16em] opacity-50">Evin ritmine eşlik eden dokular.</span><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="font-mono-ui text-[10px] uppercase tracking-[.14em]" data-testid="mobile-link-whatsapp">WhatsApp ↗</a></div>
   </div>;
@@ -104,7 +113,7 @@ function Hero() {
 function Intro() {
   const ref = useReveal();
   return <section className="bg-[#f3eee6] px-5 py-24 md:px-10 md:py-40">
-    <div ref={ref} className="reveal mx-auto grid max-w-[1180px] gap-12 md:grid-cols-[.75fr_1.25fr] md:gap-28">
+      <div ref={ref} className="reveal mx-auto grid max-w-[1180px] gap-12 md:grid-cols-[.75fr_1.25fr] md:gap-28">
       <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">01 / Yaklaşımımız</span></div>
       <div><p className="font-display text-[clamp(2.5rem,5vw,5.2rem)] leading-[.95] tracking-[-.035em] text-[#2b241f]">Sade olanın<br /><i className="font-normal text-[#b86b4b]">iyi yapılmış</i> hâli.</p><p className="mt-9 max-w-[520px] text-[13px] leading-[1.9] text-[#65584d] md:text-[14px]">OSOTTO, her gün kullandığınız tekstillerin de bir karakteri olması gerektiğine inanır. Kusursuz hissi ararken gösterişten uzak durur; iyi malzemenin, doğru oranların ve yılların zanaat bilgisinin peşinden gider.</p></div>
     </div>
@@ -120,15 +129,20 @@ function ProductCard({ product, onOpen }: { product: Product; onOpen: (product: 
       <span className="absolute left-5 top-5 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[#2b241f]">{product.weight}</span>
       <button className="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-[#f3eee6] text-[#2b241f] opacity-0 transition-opacity duration-300 group-hover:opacity-100" onClick={(event) => { event.stopPropagation(); onOpen(product); }} aria-label={`${product.weight} detayını aç`} data-testid={`button-view-${product.id}`}><ArrowUpRight size={17} strokeWidth={1.3} /></button>
     </div>
-    <div className="flex items-start justify-between gap-4 pt-5"><div><h3 className="font-display text-[27px] leading-[.95] text-[#2b241f]">{product.weight}</h3><p className="mt-2 max-w-[240px] text-[12px] leading-[1.6] text-[#65584d]">{product.description}</p></div><ArrowUpRight className="magnetic-arrow mt-1 text-[#b86b4b]" size={17} strokeWidth={1.2} /></div>
+    <div className="flex items-start justify-between gap-4 pt-5"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#b86b4b]">OSOTTO / 220 × 240 CM</span><h3 className="font-display mt-2 text-[27px] leading-[.95] text-[#2b241f]">{product.weight}</h3><p className="mt-2 max-w-[240px] text-[12px] leading-[1.6] text-[#65584d]">{product.description}</p></div><ArrowUpRight className="magnetic-arrow mt-1 text-[#b86b4b]" size={17} strokeWidth={1.2} /></div>
   </article>;
 }
 
-function Collection({ onOpen }: { onOpen: (product: Product) => void }) {
+function Collection({ onOpen, selectedWeight, onWeightChange }: { onOpen: (product: Product) => void; selectedWeight: string; onWeightChange: (weight: string) => void }) {
+  const visibleProducts = selectedWeight === 'Tümü' ? products : products.filter((product) => product.weight === selectedWeight);
+  const categoryTitle = selectedWeight === 'Tümü' ? 'Tüm ağırlıklar' : `${selectedWeight} battaniye`;
+  const categoryDescription = selectedWeight === 'Tümü' ? 'OSOTTO’nun tüm çift katlı embos battaniye seçeneklerini keşfedin.' : `OSOTTO’nun ${selectedWeight} çift katlı embos battaniye koleksiyonu.`;
   return <section id="koleksiyon" className="bg-[#e5ddcf] px-5 py-24 md:px-10 md:py-36">
     <div className="mx-auto max-w-[1240px]">
-      <div className="reveal flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">02 / Koleksiyon</span><h2 className="font-display mt-5 text-[clamp(3.4rem,7vw,7.4rem)] leading-[.8] tracking-[-.05em] text-[#2b241f]">Ağırlığın<br /><i className="font-normal text-[#b86b4b]">hâlleri.</i></h2></div><p className="max-w-[245px] text-[12px] leading-[1.8] text-[#65584d] md:pb-2">Aynı ölçü, üç farklı his. Sizin evinizdeki sıcaklık için doğru ağırlığı bulun.</p></div>
-      <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-3 md:gap-7">{products.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}</div>
+      <div className="reveal flex flex-col justify-between gap-7 md:flex-row md:items-end"><div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">02 / Koleksiyon</span><h2 className="font-display mt-5 text-[clamp(3.4rem,7vw,7.4rem)] leading-[.8] tracking-[-.05em] text-[#2b241f]">Ağırlığın<br /><i className="font-normal text-[#b86b4b]">hâlleri.</i></h2></div><p className="max-w-[245px] text-[12px] leading-[1.8] text-[#65584d] md:pb-2">Aynı ölçü, farklı bir his. Evinizin sıcaklığı için doğru ağırlığı bulun.</p></div>
+      <div className="mt-12 flex flex-wrap gap-2 border-y border-[#2b241f]/15 py-4 md:mt-16" role="tablist" aria-label="Ağırlık filtreleri">{weightOptions.map((weight) => <button type="button" key={weight} onClick={() => onWeightChange(weight)} className={`px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] transition-all ${selectedWeight === weight ? 'bg-[#2b241f] text-[#f3eee6]' : 'text-[#65584d] hover:bg-[#f3eee6]'}`} role="tab" aria-selected={selectedWeight === weight} data-testid={`filter-weight-${weight.replace(/\W/g, '')}`}>{weight}</button>)}</div>
+      <div className="mt-12 flex flex-col justify-between gap-3 md:flex-row md:items-end"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#b86b4b]">OSOTTO COLLECTION</span><h3 className="font-display mt-2 text-4xl text-[#2b241f]">{categoryTitle}</h3></div><p className="max-w-[360px] text-[12px] leading-[1.8] text-[#65584d] md:text-right">{categoryDescription}</p></div>
+      <div key={selectedWeight} className="collection-products mt-12 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-x-7 md:gap-y-16 lg:grid-cols-4">{visibleProducts.map((product) => <ProductCard key={product.id} product={product} onOpen={onOpen} />)}</div>
     </div>
   </section>;
 }
@@ -139,9 +153,11 @@ function Story() {
     <div className="mx-auto grid max-w-[1440px] md:grid-cols-[.95fr_1.05fr]">
       <div className="relative min-h-[580px] md:min-h-[760px]"><img src="/images/osotto-story.jpg" alt="OSOTTO atölyesinde tekstil işçiliği" className="absolute inset-0 h-full w-full object-cover opacity-85" /><div className="absolute inset-0 bg-gradient-to-t from-[#2b241f]/40 to-transparent" /><span className="absolute bottom-7 left-5 font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#f3eee6]/60 md:left-10">Bursa, Türkiye</span></div>
       <div ref={ref} className="reveal flex flex-col justify-center px-5 py-24 md:px-20 md:py-32">
-        <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d9a387]">03 / Hikâyemiz</span>
+        <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d9a387]">03 / Bizi tanıyın</span>
         <h2 className="font-display mt-8 max-w-[580px] text-[clamp(3rem,5.7vw,6.3rem)] leading-[.86] tracking-[-.045em]">Bir ev,<br />bir <i className="font-normal text-[#d9a387]">his.</i></h2>
         <p className="mt-10 max-w-[445px] text-[13px] leading-[1.9] text-[#f3eee6]/65 md:text-[14px]">OSOTTO’nun hikâyesi, Bursa’da bir tezgâhın başında başladı. Bugün hâlâ aynı şeye inanıyoruz: Bir tekstil ürünü yalnızca kumaştan ibaret değildir. Bir mevsimi, bir alışkanlığı, bir evin sesini taşır.</p>
+        <p className="mt-5 max-w-[445px] text-[13px] leading-[1.9] text-[#f3eee6]/65 md:text-[14px]">Bu yüzden her koleksiyonu; doğru ağırlık, dengeli doku ve uzun süre iyi hissettiren renklerle tasarlıyoruz. Bursa’daki üretim kültürünü çağdaş evlerin ritmine taşıyoruz.</p>
+        <div className="mt-10 grid max-w-[480px] grid-cols-3 gap-4 border-t border-[#f3eee6]/20 pt-5">{[['Bursa', 'üretim'], ['4', 'ağırlık'], ['220×240', 'ölçü']].map(([value, label]) => <div key={label}><strong className="font-display text-3xl font-normal text-[#d9a387]">{value}</strong><span className="mt-1 block font-mono-ui text-[8px] uppercase tracking-[.12em] text-[#f3eee6]/50">{label}</span></div>)}</div>
         <a href="#iletisim" className="mt-10 flex w-fit items-center gap-3 border-b border-[#f3eee6]/30 pb-2 font-mono-ui text-[10px] uppercase tracking-[.15em] transition-colors hover:border-[#d9a387] hover:text-[#d9a387]" data-testid="link-read-story">Bizi tanıyın <ArrowUpRight size={15} strokeWidth={1.2} /></a>
       </div>
     </div>
@@ -149,7 +165,7 @@ function Story() {
 }
 
 function Stats() {
-  const stats = [['26', 'yıl', 'Aynı özenle'], ['14', 'ülke', 'Dünyaya açılan'], ['03', 'ağırlık', 'Tek bir ölçüde']];
+  const stats = [['26', 'yıl', 'Aynı özenle'], ['14', 'ülke', 'Dünyaya açılan'], ['04', 'ağırlık', 'Tek bir ölçüde']];
   return <section className="bg-[#b86b4b] px-5 py-20 text-[#f3eee6] md:px-10 md:py-28"><div className="mx-auto grid max-w-[1180px] gap-12 md:grid-cols-3 md:gap-8">{stats.map(([number, unit, label], index) => <div key={number} className="reveal border-t border-[#f3eee6]/35 pt-4" style={{ transitionDelay: `${index * 120}ms` }}><div className="flex items-baseline gap-3"><span className="font-display text-7xl leading-none tracking-[-.05em]">{number}</span><span className="font-mono-ui text-[10px] uppercase tracking-[.16em]">{unit}</span></div><p className="mt-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f3eee6]/70">{label}</p></div>)}</div></section>;
 }
 
@@ -157,8 +173,8 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSent(true); };
   return <section id="iletisim" className="bg-[#f3eee6] px-5 py-24 md:px-10 md:py-36"><div className="mx-auto grid max-w-[1180px] gap-16 md:grid-cols-[.85fr_1.15fr] md:gap-28">
-    <div className="reveal"><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">04 / İletişim</span><h2 className="font-display mt-6 text-[clamp(3.3rem,6.5vw,6.8rem)] leading-[.82] tracking-[-.05em] text-[#2b241f]">Birlikte<br /><i className="font-normal text-[#b86b4b]">konuşalım.</i></h2><p className="mt-9 max-w-[270px] text-[13px] leading-[1.8] text-[#65584d]">Koleksiyon, kurumsal talepler veya eviniz için doğru seçim hakkında bize yazın.</p><div className="mt-10 space-y-2 font-mono-ui text-[10px] uppercase tracking-[.14em] text-[#2b241f]"><a href="mailto:merhaba@osotto.com.tr" className="block w-fit border-b border-[#b86b4b]/50 pb-1" data-testid="link-email">merhaba@osotto.com.tr</a><a href="tel:+905431945858" className="block w-fit border-b border-[#b86b4b]/50 pb-1" data-testid="link-phone">0543 194 58 58</a></div></div>
-    <div className="reveal delay-1">{sent ? <div className="flex min-h-[360px] flex-col justify-center border-t border-[#2b241f]/20"><Check className="text-[#b86b4b]" size={28} strokeWidth={1.2} /><h3 className="font-display mt-7 text-5xl text-[#2b241f]">Mesajınız<br /><i className="font-normal text-[#b86b4b]">ulaştı.</i></h3><p className="mt-5 text-[13px] text-[#65584d]">En kısa zamanda sizinle iletişime geçeceğiz.</p><button onClick={() => setSent(false)} className="mt-8 w-fit border-b border-[#2b241f]/40 pb-1 font-mono-ui text-[10px] uppercase tracking-[.15em]" data-testid="button-new-message">Yeni mesaj</button></div> : <form onSubmit={submit} className="border-t border-[#2b241f]/20"><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">Adınız</span><input required name="name" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="Ad Soyad" data-testid="input-name" /></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">E-posta</span><input required type="email" name="email" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="ornek@mail.com" data-testid="input-email" /></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">Mesajınız</span><textarea required name="message" rows={3} className="mt-3 block w-full resize-none bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="Size nasıl yardımcı olabiliriz?" data-testid="input-message" /></label><button type="submit" className="group mt-8 flex items-center gap-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#2b241f]" data-testid="button-submit-contact"><span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2b241f] text-[#f3eee6] transition-transform group-hover:translate-x-1"><ArrowUpRight size={17} strokeWidth={1.2} /></span> Gönder</button></form>}</div>
+    <div className="reveal"><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">04 / Teklif alın</span><h2 className="font-display mt-6 text-[clamp(3.3rem,6.5vw,6.8rem)] leading-[.82] tracking-[-.05em] text-[#2b241f]">Size özel<br /><i className="font-normal text-[#b86b4b]">bir teklif.</i></h2><p className="mt-9 max-w-[320px] text-[13px] leading-[1.8] text-[#65584d]">Koleksiyonumuzdan size en uygun ağırlığı birlikte seçelim. İhtiyacınızı paylaşın, OSOTTO ekibi kısa sürede size dönsün.</p><div className="mt-9 space-y-3 border-t border-[#2b241f]/15 pt-5 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#65584d]"><div className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-[#b86b4b]" /> Ürün ve ağırlık seçimi</div><div className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-[#b86b4b]" /> Toplu alım ve kurumsal talepler</div><div className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-[#b86b4b]" /> Bursa’dan doğrudan iletişim</div></div><div className="mt-10 space-y-2 font-mono-ui text-[10px] uppercase tracking-[.14em] text-[#2b241f]"><a href="mailto:merhaba@osotto.com.tr" className="block w-fit border-b border-[#b86b4b]/50 pb-1" data-testid="link-email">merhaba@osotto.com.tr</a><a href="tel:+905431945858" className="block w-fit border-b border-[#b86b4b]/50 pb-1" data-testid="link-phone">0543 194 58 58</a></div></div>
+    <div className="reveal delay-1">{sent ? <div className="flex min-h-[460px] flex-col justify-center border-t border-[#2b241f]/20"><Check className="text-[#b86b4b]" size={28} strokeWidth={1.2} /><h3 className="font-display mt-7 text-5xl text-[#2b241f]">Mesajınız<br /><i className="font-normal text-[#b86b4b]">ulaştı.</i></h3><p className="mt-5 text-[13px] text-[#65584d]">En kısa zamanda sizinle iletişime geçeceğiz.</p><button onClick={() => setSent(false)} className="mt-8 w-fit border-b border-[#2b241f]/40 pb-1 font-mono-ui text-[10px] uppercase tracking-[.15em]" data-testid="button-new-message">Yeni mesaj</button></div> : <form onSubmit={submit} className="border-t border-[#2b241f]/20"><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">Adınız</span><input required name="name" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="Ad Soyad" data-testid="input-name" /></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">E-posta</span><input required type="email" name="email" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="ornek@mail.com" data-testid="input-email" /></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">Telefon</span><input required type="tel" name="phone" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="05xx xxx xx xx" data-testid="input-phone" /></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">İlgilendiğiniz ağırlık</span><select required name="weight" defaultValue="" className="mt-3 block w-full bg-transparent font-display text-2xl text-[#2b241f] outline-none" data-testid="select-weight"><option value="" disabled>Seçiniz</option>{weightOptions.slice(1).map((weight) => <option key={weight} value={weight}>{weight}</option>)}</select></label><label className="block border-b border-[#2b241f]/20 py-5"><span className="font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#65584d]">Mesajınız</span><textarea required name="message" rows={3} className="mt-3 block w-full resize-none bg-transparent font-display text-2xl text-[#2b241f] outline-none placeholder:text-[#2b241f]/25" placeholder="Adet, teslimat veya ürün seçiminizden bahsedin." data-testid="input-message" /></label><button type="submit" className="group mt-8 flex items-center gap-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#2b241f]" data-testid="button-submit-contact"><span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2b241f] text-[#f3eee6] transition-transform group-hover:translate-x-1"><ArrowUpRight size={17} strokeWidth={1.2} /></span> Teklif isteyin</button></form>}</div>
   </div></section>;
 }
 
@@ -168,31 +184,31 @@ function Footer() {
 
 function ProductModal({ product, onClose }: { product: Product | null; onClose: () => void }) {
   const [activeImage, setActiveImage] = useState(0);
-  const touchStartX = useRef<number | null>(null);
+  const pointerStartX = useRef<number | null>(null);
   const images = product?.images ?? (product ? [product.image] : []);
 
   useEffect(() => {
     setActiveImage(0);
-    touchStartX.current = null;
+    pointerStartX.current = null;
   }, [product?.id]);
 
   if (!product) return null;
   const goToImage = (index: number) => {
     setActiveImage((index + images.length) % images.length);
   };
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    touchStartX.current = event.touches[0]?.clientX ?? null;
+  const handlePointerStart = (event: React.PointerEvent<HTMLDivElement>) => {
+    pointerStartX.current = event.clientX;
   };
-  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
-    if (touchStartX.current === null) return;
-    const delta = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
-    touchStartX.current = null;
+  const handlePointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (pointerStartX.current === null) return;
+    const delta = event.clientX - pointerStartX.current;
+    pointerStartX.current = null;
     if (Math.abs(delta) < 40 || images.length < 2) return;
     goToImage(activeImage + (delta > 0 ? 1 : -1));
   };
 
   return <div className="fixed inset-0 z-[80] flex items-end justify-center bg-[#2b241f]/70 p-0 backdrop-blur-sm md:items-center md:p-8" role="dialog" aria-modal="true" aria-label={`${product.weight} ürün detayları`}><div className="relative grid max-h-[92vh] w-full max-w-[980px] overflow-auto bg-[#f3eee6] md:grid-cols-2">
-    <div className="relative min-h-[330px] overflow-hidden md:min-h-[590px]" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div className="relative min-h-[330px] touch-pan-y select-none overflow-hidden md:min-h-[590px]" onPointerDown={handlePointerStart} onPointerUp={handlePointerEnd} onPointerCancel={() => { pointerStartX.current = null; }}>
       <img src={images[activeImage]} alt={`${product.name} ${activeImage + 1}. fotoğraf`} className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300" />
       <span className="absolute left-5 top-5 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[#2b241f]">{product.tone}</span>
       {images.length > 1 && <>
@@ -211,9 +227,22 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState<Product | null>(null);
+  const [selectedWeight, setSelectedWeight] = useState('4.5 KG');
   const finishLoading = () => setLoading(false);
+  const changeWeight = (weight: string) => {
+    setSelectedWeight(weight);
+    const hash = weight === 'Tümü' ? '#koleksiyon' : `#koleksiyon?weight=${encodeURIComponent(weight.toLowerCase().replace(' ', ''))}`;
+    window.history.replaceState(null, '', hash);
+    window.requestAnimationFrame(() => document.getElementById('koleksiyon')?.scrollIntoView({ behavior: 'smooth' }));
+  };
+  useEffect(() => {
+    const match = window.location.hash.match(/weight=([^&]+)/);
+    if (!match) return;
+    const weight = decodeURIComponent(match[1]).toUpperCase().replace('KG', ' KG');
+    if (weightOptions.includes(weight)) setSelectedWeight(weight);
+  }, []);
   useEffect(() => { document.title = 'OSOTTO — Evin dokusuna iyi gelen'; const description = 'OSOTTO, Bursa’dan dünyaya uzanan premium Türk ev tekstili. Çift katlı embos battaniyeler ve iyi hissettiren dokular.'; let meta = document.querySelector('meta[name="description"]'); if (!meta) { meta = document.createElement('meta'); meta.setAttribute('name', 'description'); document.head.appendChild(meta); } meta.setAttribute('content', description); [['og:title', 'OSOTTO — Evin dokusuna iyi gelen'], ['og:description', description], ['og:type', 'website']].forEach(([property, content]) => { let tag = document.querySelector(`meta[property="${property}"]`); if (!tag) { tag = document.createElement('meta'); tag.setAttribute('property', property); document.head.appendChild(tag); } tag.setAttribute('content', content); }); }, []);
-  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} /><main><Hero /><Intro /><Collection onOpen={setSelected} /><Story /><Stats /><Contact /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} /></>}</div>;
+  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} onCollectionSelect={changeWeight} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCollectionSelect={changeWeight} /><main><Hero /><Intro /><Collection onOpen={setSelected} selectedWeight={selectedWeight} onWeightChange={changeWeight} /><Story /><Stats /><Contact /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} /></>}</div>;
 }
 
 function Router() {

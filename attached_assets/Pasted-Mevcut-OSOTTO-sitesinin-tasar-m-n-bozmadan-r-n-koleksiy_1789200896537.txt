@@ -1,0 +1,237 @@
+Mevcut OSOTTO sitesinin tasarımını bozmadan ürün/koleksiyon sistemini aşağıdaki şekilde yeniden düzenle.
+
+ÖNEMLİ:
+Mevcut premium, minimalist ve animasyonlu tasarımı koru. Header, logo, renkler ve genel tasarım dili bozulmasın. Sadece KOLEKSİYON bölümünü daha profesyonel ve kullanışlı hale getir.
+
+1. KOLEKSİYON MENÜSÜ
+
+Header'daki "KOLEKSİYON" yazısına tıklandığında kullanıcıya 4 farklı ağırlık seçeneği göster:
+
+* 4.5 KG
+* 5 KG
+* 6 KG
+* 7 KG
+
+Bunlar dropdown yerine premium bir mega menü / açılır seçim alanı şeklinde görünebilir.
+
+Her seçenek büyük ve kolay tıklanabilir olsun.
+
+Örneğin:
+
+OSOTTO KOLEKSİYONU
+
+[ 4.5 KG ] [ 5 KG ] [ 6 KG ] [ 7 KG ]
+
+Seçilen kategori belirgin şekilde aktif görünsün.
+
+2. AĞIRLIK SEÇİMİ
+
+Kullanıcı "4.5 KG" seçerse sayfada yalnızca 4.5 KG ürünleri gösterilsin.
+
+"5 KG" seçerse yalnızca 5 KG ürünleri gösterilsin.
+
+"6 KG" seçerse yalnızca 6 KG ürünleri gösterilsin.
+
+"7 KG" seçerse yalnızca 7 KG ürünleri gösterilsin.
+
+Sayfa yenilenmeden ürünler animasyonlu şekilde değişsin.
+
+Filtre değiştiğinde eski ürünler yumuşak fade-out, yeni ürünler fade-up animasyonuyla gelsin.
+
+3. ÜRÜN SİSTEMİ
+
+Her ağırlığın altında birden fazla battaniye deseni bulunacak.
+
+Ürün verilerini ayrı bir products.js dosyasında tut.
+
+Örnek veri yapısı:
+
+{
+id: 1,
+weight: "4.5 KG",
+name: "OSOTTO 220X240 Çift Katlı Embos Battaniye",
+size: "220x240 cm",
+images: [
+"/assets/4.5kg/desen-01-uzak.jpg",
+"/assets/4.5kg/desen-01-yakin.jpg"
+]
+}
+
+Aynı sistemi bütün ağırlıklarda kullan.
+
+Örnek klasör yapısı:
+
+assets/
+4.5kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+desen-02-uzak.jpg
+desen-02-yakin.jpg
+
+5kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+
+6kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+
+7kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+
+Bu klasör yapısını kolayca ürün ekleyebileceğim şekilde oluştur.
+
+4. ÜRÜN KARTLARI
+
+Her desen ayrı bir ürün kartı olarak gösterilsin.
+
+Kartın üst kısmında büyük görsel alanı olsun.
+
+Kartın altında:
+
+OSOTTO
+220x240 CM
+4.5 KG
+
+gibi ürün bilgileri yer alsın.
+
+5. İKİ FOTOĞRAFLI SLIDER
+
+BU KISIM ÇOK ÖNEMLİ.
+
+Her ürünün tam olarak 2 fotoğrafı olacak:
+
+1. UZAK FOTOĞRAF
+2. YAKIN FOTOĞRAF
+
+Ürün kartı ilk açıldığında mutlaka UZAK FOTOĞRAF gösterilsin.
+
+Kullanıcı fotoğrafı sağa kaydırdığında YAKIN FOTOĞRAF gelsin.
+
+Kullanıcı sola kaydırdığında tekrar UZAK FOTOĞRAF gelsin.
+
+Mobilde:
+
+* Parmakla swipe destekle.
+
+Masaüstünde:
+
+* Mouse drag destekle.
+
+Ayrıca fotoğrafın altında küçük 2 adet pagination noktası göster.
+
+Örneğin:
+
+● ○
+
+İlk fotoğraftayken birinci nokta aktif.
+
+İkinci fotoğraftayken ikinci nokta aktif.
+
+6. FOTOĞRAF KALİTESİ
+
+Ürün fotoğraflarını kesinlikle değiştirme.
+
+Fotoğrafların:
+
+* Renklerini değiştirme
+* Deseni değiştirme
+* Perspektifi değiştirme
+* Kalitesini düşürme
+* Stretch yapma
+
+Görseller object-fit ile deformasyona uğramadan gösterilsin.
+
+Ürün görseli kartın içinde premium ve büyük görünsün.
+
+7. MASAÜSTÜ TASARIM
+
+Masaüstünde ürünleri 3 veya 4 kolon halinde göster.
+
+Örneğin:
+
+[ Ürün 1 ] [ Ürün 2 ] [ Ürün 3 ] [ Ürün 4 ]
+
+Ekran genişliğine göre otomatik ayarlansın.
+
+Kartlar arasında yeterli boşluk bırak.
+
+8. MOBİL TASARIM
+
+Mobilde ürünler tek kolon halinde gösterilsin.
+
+Her ürün kartı geniş ve kaliteli görünsün.
+
+Swipe sistemi özellikle mobilde çok akıcı çalışsın.
+
+9. ÜRÜN HOVER ANİMASYONU
+
+Masaüstünde mouse ürünün üzerine geldiğinde:
+
+* Kart hafif yukarı kalksın
+* Görsel çok hafif zoom olsun
+* Ürün bilgileri yumuşak şekilde ortaya çıksın
+
+Animasyonlar yavaş ve premium olsun.
+
+Abartılı animasyon kullanma.
+
+10. KATEGORİ BAŞLIĞI
+
+Ürünlerin üzerinde seçilen kategori gösterilsin.
+
+Örneğin kullanıcı 4.5 KG seçtiğinde:
+
+OSOTTO COLLECTION
+
+4.5 KG BATTANİYE
+
+"OSOTTO'nun 4.5 KG çift katlı embos battaniye koleksiyonu."
+
+gibi bir başlık alanı oluştur.
+
+11. TÜMÜ SEÇENEĞİ
+
+4 ağırlığın yanında küçük bir:
+
+TÜMÜ
+
+seçeneği de ekle.
+
+Buna basıldığında bütün ürünler gösterilsin.
+
+Ancak varsayılan olarak ilk açılışta 4.5 KG seçili olsun.
+
+12. HEADER LINK
+
+Header'daki:
+
+KOLEKSİYON
+
+linkine tıklandığında kullanıcı doğrudan bu koleksiyon bölümüne smooth scroll ile gelsin.
+
+Ancak kullanıcı isterse header üzerinden açılan seçim menüsünden direkt:
+
+4.5 KG
+5 KG
+6 KG
+7 KG
+
+seçebilsin.
+
+13. URL SİSTEMİ
+
+Mümkünse kategori seçimlerini URL hash sistemiyle destekle.
+
+Örneğin:
+
+#koleksiyon?weight=4.5kg
+
+veya uygun gördüğün modern bir routing sistemi kullan.
+
+Böylece kullanıcı 4.5 KG kategorisini seçtiğinde sayfa yenilense bile seçilen kategori korunabilsin.
+
+14. ÜRÜN DETAYI
+
+Ürün kartına tıklanınca premium bir ürün detay modalı aç.

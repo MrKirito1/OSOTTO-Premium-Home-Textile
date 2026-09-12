@@ -121,11 +121,15 @@
 .opening-exit { animation: openingOut .65s ease 1.25s forwards; }
 .opening-line { animation: lineIn .9s cubic-bezier(.22,1,.36,1) .55s both; }
 .product-image { transition: transform .8s cubic-bezier(.22,1,.36,1); }
+.product-card { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.product-card:hover { transform: translateY(-5px); }
 .product-card:hover .product-image { transform: scale(1.045); }
 .magnetic-arrow { transition: transform .35s ease; }
 .product-card:hover .magnetic-arrow { transform: translate(4px,-4px); }
-button, a, input, textarea { outline-color: hsl(var(--accent)); }
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 3px; }
+.collection-products { animation: collectionFadeUp .55s cubic-bezier(.22,1,.36,1) both; }
+@keyframes collectionFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+button, a, input, textarea, select { outline-color: hsl(var(--accent)); }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid hsl(var(--accent)); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }

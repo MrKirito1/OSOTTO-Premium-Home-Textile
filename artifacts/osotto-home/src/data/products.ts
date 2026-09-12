@@ -93,8 +93,13 @@ export const products: Product[] = [
     name: 'OSOTTO 220x240 Çift Katlı Embos Battaniye',
     description: 'Derin kış akşamları için en dolgun OSOTTO deneyimi.',
     details: ['220 × 240 cm', 'Çift katlı embos dokuma', 'Maksimum sıcaklık dengesi', 'Özel dokulu kenar bitişi'],
-    image: '/images/osotto-product.jpg',
-    images: ['/images/osotto-product.jpg'],
-    tone: 'Fildişi / Toprak',
+    image: '/images/products/7kg/7kg-01.jpeg',
+    images: [
+      '/images/products/7kg/7kg-01.jpeg',
+      '/images/products/7kg/7kg-02.jpeg',
+      '/images/products/7kg/7kg-03.jpeg',
+      '/images/products/7kg/7kg-04.jpeg',
+    ],
+    tone: 'Desenli / Koleksiyon',
   },
 ];

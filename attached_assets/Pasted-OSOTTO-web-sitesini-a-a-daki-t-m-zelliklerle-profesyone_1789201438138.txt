@@ -1,0 +1,1116 @@
+OSOTTO web sitesini aşağıdaki tüm özelliklerle profesyonel şekilde geliştir.
+
+ÇOK ÖNEMLİ:
+Mevcut OSOTTO sitesinin tasarımını, premium görünümünü, animasyonlarını ve çalışan özelliklerini BOZMA.
+
+Önce mevcut projeyi incele. Sonra aşağıdaki özellikleri mevcut sisteme entegre et.
+
+Mevcut çalışan özellikleri silme veya bozma.
+
+OSOTTO premium ev tekstili markasıdır.
+
+Site tamamen TÜRKÇE olacak.
+İngilizce sadece marka adı "OSOTTO" ve gerektiğinde ürün/teknik isimlerde kullanılabilir.
+
+Tasarım:
+- Premium
+- Minimalist
+- Modern
+- Lüks
+- Ferah
+- Profesyonel
+- Şık
+- Akıcı animasyonlar
+- Büyük kaliteli ürün görselleri
+- Bol whitespace
+- Mobil ve masaüstü tamamen responsive
+
+Site kesinlikle amatör görünmemeli.
+
+
+==================================================
+1. HERO AÇILIŞ ANİMASYONU
+==================================================
+
+Şu anda site ilk açıldığında Hero bölümündeki OSOTTO yazısı çok geç geliyor.
+
+BUNU KESİNLİKLE DÜZELT.
+
+Site açıldığı ANDA Hero bölümü görünür olmalı.
+
+Kullanıcı uzun süre boş ekran veya loading ekranı görmemeli.
+
+Eğer loading ekranı kullanılıyorsa maksimum 0.5-0.8 saniye sürsün.
+
+Mümkünse loading ekranını tamamen kaldır.
+
+Hero açıldığı anda:
+
+OSOTTO
+
+PREMIUM HOME TEXTILE
+
+"Konforu ve zarafeti yaşam alanınıza taşıyın."
+
+"KOLEKSİYONU KEŞFET"
+
+alanları görünür olmalı.
+
+Animasyonlar devam etsin ama çok hızlı olsun.
+
+Yaklaşık animasyon süreleri:
+
+OSOTTO:
+0.3-0.5 saniye
+
+Alt başlık:
+0.4-0.6 saniye
+
+Açıklama:
+0.5-0.7 saniye
+
+Buton:
+0.6-0.8 saniye
+
+Animasyonlar arasında uzun bekleme OLMASIN.
+
+Hero arka plan görseli hızlı yüklensin.
+
+Hero görselinde lazy loading kullanma.
+
+Hero görseli eager/priority olarak yüklensin.
+
+
+==================================================
+2. SAYFA YENİLENDİĞİNDE EN ÜSTTEN BAŞLASIN
+==================================================
+
+Şu anda kullanıcı sayfanın aşağısındayken F5 / refresh yaptığında sayfa eski scroll konumunda kalıyor.
+
+BUNU DÜZELT.
+
+Sayfa her yenilendiğinde EN ÜSTTEN başlamalı.
+
+Browser scroll restoration özelliğini manuel kontrol et.
+
+Gerekirse:
+
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
+kullan.
+
+Sayfa ilk mount olduğunda:
+
+window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+});
+
+uygula.
+
+Ancak kullanıcı normal şekilde bir bölüme tıkladığında smooth scroll çalışmaya devam etmeli.
+
+Örneğin:
+
+KOLEKSİYON → Koleksiyon bölümüne smooth scroll
+
+TEKLİF ALIN → Teklif bölümüne smooth scroll
+
+BAYİMİZ OLUN → Bayi başvuru bölümüne smooth scroll
+
+
+==================================================
+3. HEADER
+==================================================
+
+Header sabit olsun.
+
+İçerisinde:
+
+OSOTTO
+
+ANA SAYFA
+KOLEKSİYON
+HAKKIMIZDA
+İLETİŞİM
+TEKLİF ALIN
+BAYİMİZ OLUN
+
+bulunsun.
+
+Header sayfanın üstündeyken şeffaf/transparan olabilir.
+
+Aşağı kaydırıldığında hafif blur ve premium arka plan oluşsun.
+
+Hover animasyonları yumuşak olsun.
+
+"TEKLİF ALIN" ve "BAYİMİZ OLUN" butonları diğer menülerden görsel olarak biraz daha dikkat çekici olabilir.
+
+Mobilde hamburger menü kullan.
+
+
+==================================================
+4. KOLEKSİYON MENÜSÜ
+==================================================
+
+Header'daki "KOLEKSİYON" bölümünü gerçek bir ürün kategori sistemi haline getir.
+
+Kullanıcı KOLEKSİYON'a tıkladığında aşağıdaki seçenekleri görsün:
+
+TÜMÜ
+4.5 KG
+5 KG
+6 KG
+7 KG
+
+Tasarım premium bir dropdown veya mega menu şeklinde olabilir.
+
+Örneğin:
+
+OSOTTO KOLEKSİYONU
+
+[ TÜMÜ ] [ 4.5 KG ] [ 5 KG ] [ 6 KG ] [ 7 KG ]
+
+Seçilen kategori aktif ve belirgin görünsün.
+
+Kullanıcı 4.5 KG'ye bastığında koleksiyon bölümüne gidip sadece 4.5 KG ürünlerini görmeli.
+
+
+==================================================
+5. AĞIRLIĞA GÖRE ÜRÜN FİLTRELEME
+==================================================
+
+Kullanıcı:
+
+4.5 KG
+
+seçerse sadece 4.5 KG ürünleri göster.
+
+5 KG seçerse sadece 5 KG ürünleri göster.
+
+6 KG seçerse sadece 6 KG ürünleri göster.
+
+7 KG seçerse sadece 7 KG ürünleri göster.
+
+TÜMÜ seçilirse bütün ürünleri göster.
+
+Sayfa yenilenmeden ürünler değişsin.
+
+Eski ürünler fade-out ile kaybolsun.
+
+Yeni ürünler fade-up / scale-in ile gelsin.
+
+Varsayılan kategori 4.5 KG olabilir.
+
+
+==================================================
+6. ÜRÜN VERİ SİSTEMİ
+==================================================
+
+Ürünleri HTML içine tek tek yazma.
+
+Ürün verilerini ayrı bir:
+
+products.js
+
+veya uygun bir JSON/data dosyasında tut.
+
+Örnek:
+
+{
+    id: 1,
+    weight: "4.5 KG",
+    name: "OSOTTO 220X240 Çift Katlı Embos Battaniye",
+    size: "220x240 cm",
+    images: [
+        "/assets/4.5kg/desen-01-uzak.jpg",
+        "/assets/4.5kg/desen-01-yakin.jpg"
+    ]
+}
+
+Yeni ürün eklemek sadece products.js içine veri ekleyerek mümkün olsun.
+
+Ürün sistemi ileride onlarca ürün eklememe uygun şekilde hazırlanmalı.
+
+
+==================================================
+7. FOTOĞRAF KLASÖR YAPISI
+==================================================
+
+Ürün görselleri şu mantıkta organize edilsin:
+
+assets/
+
+4.5kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+desen-02-uzak.jpg
+desen-02-yakin.jpg
+
+5kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+desen-02-uzak.jpg
+desen-02-yakin.jpg
+
+6kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+
+7kg/
+desen-01-uzak.jpg
+desen-01-yakin.jpg
+
+Yeni ürün eklemek kolay olmalı.
+
+
+==================================================
+8. HER DESENDE 2 FOTOĞRAF
+==================================================
+
+HER ÜRÜN/DESEN İÇİN TAM OLARAK 2 FOTOĞRAF OLACAK.
+
+1. UZAK FOTOĞRAF
+2. YAKIN FOTOĞRAF
+
+Ürün kartı ilk açıldığında mutlaka UZAK FOTOĞRAF gösterilmeli.
+
+Kullanıcı sağa kaydırdığında YAKIN FOTOĞRAF gelmeli.
+
+Sola kaydırdığında tekrar UZAK FOTOĞRAF gelmeli.
+
+
+==================================================
+9. FOTOĞRAF SWIPE SİSTEMİ
+==================================================
+
+Mobilde parmakla swipe çalışmalı.
+
+Masaüstünde mouse ile drag/swipe çalışmalı.
+
+Touch ve mouse hareketleri düzgün çalışmalı.
+
+Fotoğrafın altında iki pagination noktası göster:
+
+● ○
+
+İlk fotoğrafta:
+
+● ○
+
+İkinci fotoğrafta:
+
+○ ●
+
+Fotoğraf değiştiği anda pagination da değişmeli.
+
+
+==================================================
+10. FOTOĞRAF GEÇİŞ HIZI
+==================================================
+
+ÇOK ÖNEMLİ.
+
+Şu anda fotoğraflar arasında geçiş çok yavaş.
+
+BUNU KESİNLİKLE HIZLANDIR.
+
+Kullanıcı sağa kaydırdığı anda ikinci fotoğraf ÇOK HIZLI görünmeli.
+
+Geçiş yaklaşık 150-250ms aralığında olsun.
+
+500ms, 700ms, 1 saniye veya daha uzun geçiş KULLANMA.
+
+İstediğim his:
+
+UZAK FOTOĞRAF
+↓
+sağa kaydır
+↓
+ÇOK HIZLI GEÇİŞ
+↓
+YAKIN FOTOĞRAF
+
+Ağır ve yavaş slide animasyonu kullanma.
+
+Örneğin:
+
+transition: transform 180ms ease-out;
+
+veya daha hızlı ve akıcı uygun bir sistem kullan.
+
+İkinci fotoğraf önceden yüklenmiş olsun.
+
+Kullanıcı swipe yaptığında ikinci fotoğrafın yüklenmesini BEKLEMEMELİ.
+
+Her ürünün uzak ve yakın fotoğrafını mümkün olduğunca önceden preload et.
+
+Mobil touch sistemi optimize edilmeli.
+
+touchstart
+touchmove
+touchend
+
+olayları performanslı çalışmalı.
+
+Her touch hareketinde bütün ürün listesini yeniden render etme.
+
+Sadece ilgili slider'ı güncelle.
+
+Masaüstü mouse drag de aynı şekilde hızlı çalışmalı.
+
+
+==================================================
+11. FOTOĞRAFLARA MÜDAHALE ETME
+==================================================
+
+ÜRÜN FOTOĞRAFLARINI DEĞİŞTİRME.
+
+- Renk değiştirme
+- Desen değiştirme
+- Perspektif değiştirme
+- Stretch yapma
+- Filtre uygulama
+- Görüntüyü bozma
+- Kalite düşürme
+
+yapma.
+
+Fotoğraflar orijinal görünümünü korumalı.
+
+Responsive yapılırken deformasyon olmamalı.
+
+
+==================================================
+12. ÜRÜN KARTLARI
+==================================================
+
+Masaüstünde ürünleri 3 veya 4 kolon halinde göster.
+
+Responsive grid kullan.
+
+Her ürün kartında:
+
+OSOTTO
+
+Ürün adı
+
+220x240 CM
+
+4.5 KG / 5 KG / 6 KG / 7 KG
+
+İNCELE
+
+bilgileri olsun.
+
+Hover olduğunda:
+
+- Kart hafif yukarı kalksın
+- Görsel hafif zoom olsun
+- Hafif gölge oluşsun
+- Buton belirginleşsin
+
+Animasyonlar premium ve sade olsun.
+
+
+==================================================
+13. ÜRÜN DETAY MODALI
+==================================================
+
+Ürün kartına tıklanınca premium bir ürün detay modalı aç.
+
+Modal içinde:
+
+- Büyük ürün görseli
+- Uzak/yakın fotoğraf swipe sistemi
+- Ürün adı
+- 220x240 cm
+- KG bilgisi
+- Ürün açıklaması
+- Teknik özellikler
+- TEKLİF AL
+- WHATSAPP'TAN TEKLİF AL
+
+butonları olsun.
+
+Modal scale + fade animasyonuyla açılsın.
+
+
+==================================================
+14. TEKLİF ALIN BÖLÜMÜ
+==================================================
+
+"TEKLİF ALIN" kısmı kesinlikle boş kalmasın.
+
+Gerçek ve profesyonel bir teklif formu oluştur.
+
+Header'daki TEKLİF ALIN butonuna basıldığında kullanıcı doğrudan teklif bölümüne smooth scroll ile gelsin.
+
+Başlık:
+
+TEKLİF ALIN
+
+Alt yazı:
+
+"İhtiyacınıza uygun ürün ve fiyat bilgileri için bizimle iletişime geçin."
+
+
+==================================================
+15. TEKLİF FORMU
+==================================================
+
+Form alanları:
+
+Ad Soyad *
+Firma Adı *
+E-posta *
+Telefon *
+Ülke
+İlgilendiğiniz Ürün
+Ürün Ağırlığı
+Talep Edilen Adet
+Mesaj
+
+Ürün ağırlığı seçenekleri:
+
+4.5 KG
+5 KG
+6 KG
+7 KG
+
+İlgilendiğiniz Ürün dropdown'u products.js'den otomatik oluşsun.
+
+Yeni ürün eklediğimde otomatik olarak burada da görünsün.
+
+
+==================================================
+16. ÜRÜNDEN TEKLİFE GEÇİŞ
+==================================================
+
+Müşteri ürün detayından:
+
+TEKLİF AL
+
+butonuna basarsa teklif formuna yönlendir.
+
+Formda seçilen ürün otomatik olarak dolu gelsin.
+
+Örneğin:
+
+Ürün:
+OSOTTO 220X240 Çift Katlı Embos Battaniye
+
+Ağırlık:
+4.5 KG
+
+Ölçü:
+220x240 cm
+
+otomatik seçilsin.
+
+
+==================================================
+17. WHATSAPP TEKLİF
+==================================================
+
+Teklif bölümünde:
+
+WHATSAPP'TAN TEKLİF AL
+
+butonu olsun.
+
+Tıklanınca WhatsApp açılsın.
+
+Mesaj otomatik oluşturulsun:
+
+Merhaba, OSOTTO ürünleri hakkında teklif almak istiyorum.
+
+Ad Soyad:
+Firma:
+Ürün:
+Ağırlık:
+Ölçü:
+Adet:
+Mesaj:
+
+Formdaki bilgiler otomatik olarak WhatsApp mesajına aktarılsın.
+
+WhatsApp numarası tek bir değişkenden kolayca değiştirilebilir olsun:
+
+const WHATSAPP_NUMBER = "905XXXXXXXXX";
+
+
+==================================================
+18. FORM VALIDATION
+==================================================
+
+Zorunlu alanlar boşsa form gönderilmesin.
+
+Eksik alanlar kullanıcıya açıkça gösterilsin.
+
+Başarılı gönderimde:
+
+"Talebiniz başarıyla alındı."
+
+"En kısa sürede sizinle iletişime geçeceğiz."
+
+mesajı gösterilsin.
+
+Form frontend olarak çalışır durumda olsun.
+
+Backend gerekiyorsa Replit üzerinde kolayca bağlanabilecek şekilde yapılandır.
+
+
+==================================================
+19. TEKLİF BÖLÜMÜ TASARIMI
+==================================================
+
+Masaüstünde iki kolon:
+
+SOL:
+
+TEKLİF ALIN
+
+"Toplu alım, ürün seçenekleri ve fiyat bilgileri için bizimle iletişime geçin."
+
+SAĞ:
+
+Teklif formu
+
+Mobilde tek kolon olsun.
+
+Inputlar premium ve minimal görünsün.
+
+İnce borderlar kullan.
+
+Focus ve hover efektleri ekle.
+
+
+==================================================
+20. BAYİMİZ OLUN BÖLÜMÜ
+==================================================
+
+Siteye ayrıca çok belirgin bir:
+
+"BAYİMİZ OLUN"
+
+butonu ekle.
+
+Bu buton Header'da bulunmalı.
+
+Ayrıca ana sayfada uygun bir yerde premium bir "BAYİMİZ OLUN" çağrı alanı bulunmalı.
+
+Butona tıklanınca kullanıcı "BAYİMİZ OLUN" bölümüne smooth scroll ile gitmeli.
+
+
+==================================================
+21. BAYİ BAŞVURU FORMU
+==================================================
+
+"BAYİMİZ OLUN" bölümü kesinlikle boş olmayacak.
+
+Profesyonel bir bayi başvuru formu oluştur.
+
+Başlık:
+
+BAYİMİZ OLUN
+
+Alt başlık:
+
+"OSOTTO ürünlerini işletmenizde sunmak ve iş ortaklığımız hakkında bilgi almak için başvurun."
+
+Form alanları:
+
+AD SOYAD *
+FİRMA ADI *
+E-POSTA *
+TELEFON *
+ÜLKE *
+ŞEHİR
+WEB SİTESİ
+INSTAGRAM / SOSYAL MEDYA
+MAĞAZA / İŞLETME TÜRÜ
+MEVCUT SATIŞ KANALLARI
+İLGİLENİLEN ÜRÜNLER
+TAHMİNİ AYLIK ALIM MİKTARI
+MESAJ
+
+"MAĞAZA / İŞLETME TÜRÜ" seçenekleri:
+
+- Mağaza
+- E-ticaret
+- Toptan Satış
+- Distribütör
+- Diğer
+
+"İLGİLENİLEN ÜRÜNLER" alanında:
+
+- 4.5 KG
+- 5 KG
+- 6 KG
+- 7 KG
+- Diğer OSOTTO ürünleri
+
+seçilebilir olsun.
+
+Mümkünse çoklu seçim kullanılabilir.
+
+
+==================================================
+22. BAYİ BAŞVURU GÖNDERİMİ
+==================================================
+
+Formun altında büyük bir:
+
+"BAYİLİK BAŞVURUSU GÖNDER"
+
+butonu olsun.
+
+Zorunlu alanlar kontrol edilsin.
+
+Başarılı gönderimde:
+
+"Başvurunuz başarıyla alındı."
+
+"Ekibimiz başvurunuzu inceleyerek sizinle iletişime geçecektir."
+
+mesajı gösterilsin.
+
+
+==================================================
+23. BAYİ BAŞVURUSU WHATSAPP
+==================================================
+
+Bayi formunun yanında ayrıca:
+
+"WHATSAPP'TAN BAYİLİK BİLGİSİ AL"
+
+butonu oluştur.
+
+Tıklanınca WhatsApp açılsın.
+
+Mesaj otomatik olarak şu formatta oluşturulsun:
+
+Merhaba, OSOTTO bayiliği hakkında bilgi almak istiyorum.
+
+Ad Soyad:
+Firma:
+E-posta:
+Telefon:
+Ülke:
+Şehir:
+Web Sitesi:
+Instagram:
+İşletme Türü:
+Satış Kanalları:
+İlgilendiğim Ürünler:
+Tahmini Aylık Alım:
+Mesaj:
+
+Formdaki bilgiler otomatik olarak WhatsApp mesajına aktarılsın.
+
+WhatsApp numarası teklif sistemiyle aynı:
+
+const WHATSAPP_NUMBER = "905XXXXXXXXX";
+
+
+==================================================
+24. BAYİ BAŞVURU TASARIMI
+==================================================
+
+Bayi bölümünü teklif bölümünden görsel olarak biraz farklı ama aynı OSOTTO tasarım dilinde yap.
+
+Premium ve kurumsal görünmeli.
+
+Örneğin:
+
+BAYİMİZ OLUN
+
+"OSOTTO ile birlikte büyüyün."
+
+Sol tarafta marka açıklaması.
+
+Sağ tarafta başvuru formu.
+
+Masaüstünde iki kolon.
+
+Mobilde tek kolon.
+
+Form alanları sade ve modern olsun.
+
+
+==================================================
+25. BAYİ BÖLÜMÜ ANİMASYONU
+==================================================
+
+Bayi bölümü ekrana geldiğinde:
+
+- Başlık fade-up
+- Sol taraf slide-in
+- Form slide-in
+- Inputlar stagger animasyonuyla gelsin
+
+Animasyonlar hızlı ve profesyonel olsun.
+
+
+==================================================
+26. HAKKIMIZDA
+==================================================
+
+"Hakkımızda" bölümünü koru veya geliştir.
+
+Başlık:
+
+"Kaliteye dokunun."
+
+Metin:
+
+"OSOTTO, modern yaşam alanları için tasarlanan premium ev tekstili koleksiyonları sunar. Estetik tasarım, konfor ve kaliteli üretim anlayışını bir araya getirir."
+
+Büyük lifestyle görseli kullan.
+
+
+==================================================
+27. SAYISAL İSTATİSTİK
+==================================================
+
+Animasyonlu sayaçlar ekle:
+
+7000+
+ÜRÜN ÇEŞİDİ
+
+YILLIK
+ÜRETİM
+
+GÜVENİLİR
+TEDARİK
+
+PROFESYONEL
+HİZMET
+
+Sayılar ekrana geldiğinde count-up animasyonu kullanılabilir.
+
+
+==================================================
+28. HERO PARALLAX
+==================================================
+
+Hero arka plan görselinde çok hafif parallax efekti kullan.
+
+Scroll sırasında görsel yavaş hareket etsin.
+
+Abartılı efekt kullanma.
+
+
+==================================================
+29. GENEL SCROLL ANİMASYONLARI
+==================================================
+
+GSAP veya Framer Motion kullan.
+
+Aşağıdaki animasyonları kullan:
+
+- Fade up
+- Fade in
+- Scale in
+- Slide in
+- Hafif parallax
+
+Animasyonlar hızlı ve akıcı olsun.
+
+Site oyun sitesi gibi görünmemeli.
+
+Premium ev tekstili markası gibi görünmeli.
+
+
+==================================================
+30. MOBİL TASARIM
+==================================================
+
+Mobilde:
+
+- Hamburger menü
+- Tek kolon ürünler
+- Parmakla swipe
+- Büyük ürün görselleri
+- Kolay tıklanabilir butonlar
+- Responsive teklif formu
+- Responsive bayi formu
+
+olmalı.
+
+Mobilde hiçbir şey taşmamalı.
+
+Swipe sistemi özellikle mobilde çok akıcı çalışmalı.
+
+
+==================================================
+31. PERFORMANS
+==================================================
+
+Hero görseli:
+
+priority/eager
+
+olarak yüklensin.
+
+Ürün görselleri lazy loading kullanabilir.
+
+Ancak aktif ürünün ikinci fotoğrafı önceden preload edilsin.
+
+Gereksiz render oluşmasını engelle.
+
+Swipe sırasında tüm ürün listesini render etme.
+
+Animasyonları GPU dostu yap.
+
+Mobilde kasma olmamalı.
+
+
+==================================================
+32. SEO
+==================================================
+
+SEO metadata ekle.
+
+Title:
+
+OSOTTO | Premium Home Textile
+
+Description:
+
+"OSOTTO premium ev tekstili ve battaniye koleksiyonları."
+
+Open Graph metadata ekle.
+
+Favicon eklenebilecek yapı oluştur.
+
+
+==================================================
+33. URL / KATEGORİ
+==================================================
+
+Mümkünse seçilen ağırlığı URL ile destekle.
+
+Örneğin:
+
+#koleksiyon?weight=4.5kg
+
+veya modern bir routing sistemi kullan.
+
+Kullanıcı 4.5 KG seçtiğinde sayfa yenilenirse seçilen kategori korunabilir.
+
+Ancak normal F5 yenilemesinde sayfa scroll olarak en üstten başlamalı.
+
+
+==================================================
+34. DOSYA YAPISI
+==================================================
+
+Kod düzenli component yapısında olsun.
+
+Örneğin:
+
+components/
+    Header
+    Hero
+    Collection
+    ProductCard
+    ProductSlider
+    ProductModal
+    QuoteForm
+    DealerForm
+    About
+    Footer
+
+data/
+    products.js
+
+assets/
+    4.5kg/
+    5kg/
+    6kg/
+    7kg/
+
+styles/
+
+Ürün verileri ayrı tutulmalı.
+
+Teklif formu ve bayi formu ayrı component olmalı.
+
+
+==================================================
+35. ÖNEMLİ TASARIM KURALI
+==================================================
+
+Mevcut OSOTTO tasarımını BOZMA.
+
+Mevcut renkleri, logo stilini ve premium görünümü koru.
+
+Yeni özellikler mevcut tasarımla bütünleşsin.
+
+Ürün fotoğrafları sitenin en önemli elementi olsun.
+
+Metinden çok ürün görsellerine önem ver.
+
+Site ilk açıldığında kullanıcı:
+
+OSOTTO
+premium ev tekstili
+kalite
+modern tasarım
+
+hissini hemen almalı.
+
+
+==================================================
+36. SON TEST
+==================================================
+
+Projeyi çalıştır.
+
+Aşağıdaki işlemleri tek tek test et:
+
+1. Siteyi aç.
+Hero ANINDA görünmeli.
+
+2. Hero animasyonu çok uzun sürmemeli.
+
+3. F5'e bas.
+Sayfa en üstten başlamalı.
+
+4. KOLEKSİYON'a tıkla.
+TÜMÜ / 4.5 KG / 5 KG / 6 KG / 7 KG görünmeli.
+
+5. 4.5 KG seç.
+Sadece 4.5 KG ürünleri görünmeli.
+
+6. 5 KG seç.
+Sadece 5 KG ürünleri görünmeli.
+
+7. 6 KG seç.
+Sadece 6 KG ürünleri görünmeli.
+
+8. 7 KG seç.
+Sadece 7 KG ürünleri görünmeli.
+
+9. Ürün kartını aç.
+İlk fotoğraf uzak fotoğraf olmalı.
+
+10. Sağa swipe yap.
+Yakın fotoğraf ÇOK HIZLI gelmeli.
+
+11. Sola swipe yap.
+Uzak fotoğraf ÇOK HIZLI geri gelmeli.
+
+12. Fotoğraf geçişi 150-250ms civarında olmalı.
+
+13. İkinci fotoğraf önceden yüklenmiş olmalı.
+
+14. Ürün detayına gir.
+TEKLİF AL butonu çalışmalı.
+
+15. TEKLİF AL butonuna bas.
+Teklif formuna gitmeli.
+
+16. Ürün bilgileri teklif formuna otomatik gelmeli.
+
+17. Header'daki TEKLİF ALIN butonu gerçek teklif formuna gitmeli.
+
+18. Teklif formu validation çalışmalı.
+
+19. WhatsApp teklif butonu çalışmalı.
+
+20. WhatsApp mesajı ürün ve müşteri bilgileriyle otomatik oluşmalı.
+
+21. BAYİMİZ OLUN butonu çalışmalı.
+
+22. BAYİMİZ OLUN butonuna basınca bayi formuna smooth scroll yapılmalı.
+
+23. Bayi formu boş olmamalı.
+
+24. Bayi formundaki tüm alanlar düzgün çalışmalı.
+
+25. Bayi başvurusu validation çalışmalı.
+
+26. Bayi WhatsApp butonu çalışmalı.
+
+27. Bayi WhatsApp mesajı formdaki bilgilerle otomatik oluşmalı.
+
+28. Mobilde hamburger menü çalışmalı.
+
+29. Mobilde swipe çalışmalı.
+
+30. Mobilde ürün fotoğrafları hızlı değişmeli.
+
+31. Mobilde teklif formu düzgün görünmeli.
+
+32. Mobilde bayi formu düzgün görünmeli.
+
+33. Sayfa yenilendiğinde eski scroll pozisyonuna dönmemeli.
+
+34. KOLEKSİYON'a tıklayınca smooth scroll çalışmalı.
+
+35. TEKLİF ALIN'a tıklayınca smooth scroll çalışmalı.
+
+36. BAYİMİZ OLUN'a tıklayınca smooth scroll çalışmalı.
+
+37. Masaüstü ve mobil responsive kontrolü yap.
+
+38. Console'da hata bırakma.
+
+39. Kırık link veya eksik component bırakma.
+
+40. Mevcut çalışan özellikleri bozma.
+
+Herhangi bir hata veya performans problemi bulursan kendin tespit edip düzelt.
+
+SONUÇ:
+
+Site ilk açıldığında hızlı, premium ve etkileyici olmalı.
+
+Kullanıcı KOLEKSİYON'a girip:
+
+4.5 KG
+5 KG
+6 KG
+7 KG
+
+arasından seçim yapabilmeli.
+
+Seçilen ağırlığın battaniyeleri aşağıda listelenmeli.
+
+Her desenin önce uzak fotoğrafı gösterilmeli.
+
+Kullanıcı sağa kaydırdığında yakın fotoğraf ÇOK HIZLI şekilde gelmeli.
+
+Üründen doğrudan teklif alınabilmeli.
+
+Teklif formu gerçek ve kullanılabilir olmalı.
+
+WhatsApp üzerinden teklif gönderilebilmeli.
+
+Ayrıca kullanıcı "BAYİMİZ OLUN" butonuna basarak profesyonel bayi başvuru formuna ulaşabilmeli.
+
+Bayi başvurusunda firma, iletişim, satış kanalları, ilgilenilen ürünler ve tahmini alım bilgileri alınabilmeli.
+
+Bayi başvurusu WhatsApp üzerinden de gönderilebilmeli.
+
+F5 yapıldığında sayfa en üstten başlamalı.
+
+Hero animasyonu site açılışını geciktirmemeli.
+
+Önceliğin:
+
+1. Hız
+2. Kullanıcı deneyimi
+3. Premium görünüm
+4. Ürün görselleri
+5. Mobil kullanım
+6. Kolay ürün yönetimi
+7. Teklif ve bayi başvurusu
+
+olmalı.

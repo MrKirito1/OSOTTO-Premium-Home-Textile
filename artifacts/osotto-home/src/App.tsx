@@ -254,7 +254,7 @@ function Stats() {
     return () => cancelAnimationFrame(frame);
   }, []);
   const stats = [[`${count.toLocaleString('tr-TR')}+`, 'ürün çeşidi'], ['YILLIK', 'üretim'], ['GÜVENİLİR', 'tedarik'], ['PROFESYONEL', 'hizmet']];
-  return <section className="bg-[#b86b4b] px-5 py-20 text-[#f3eee6] md:px-10 md:py-28"><div ref={ref} className="reveal mx-auto grid max-w-[1180px] gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-8">{stats.map(([number, label], index) => <div key={label} className="border-t border-[#f3eee6]/35 pt-4" style={{ transitionDelay: `${index * 100}ms` }}><div className="font-display text-[clamp(2.8rem,5vw,5rem)] leading-none tracking-[-.05em]">{number}</div><p className="mt-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f3eee6]/70">{label}</p></div>)}</div></section>;
+  return <section className="bg-[#b86b4b] px-5 py-20 text-[#f3eee6] md:px-10 md:py-28"><div ref={ref} className="reveal mx-auto grid max-w-[1180px] gap-10 sm:grid-cols-2 md:grid-cols-4 md:gap-8">{stats.map(([number, label], index) => <div key={label} className="border-t border-[#f3eee6]/35 pt-4" style={{ transitionDelay: `${index * 100}ms` }}><div className="whitespace-nowrap font-display text-[clamp(2.45rem,3.35vw,4.25rem)] leading-none tracking-[-.065em]">{number}</div><p className="mt-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f3eee6]/70">{label}</p></div>)}</div></section>;
 }
 
 function QuoteSection({ prefillProduct }: { prefillProduct: Product | null }) {

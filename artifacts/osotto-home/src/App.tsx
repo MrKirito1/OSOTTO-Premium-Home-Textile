@@ -58,15 +58,15 @@ function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionS
   return (
     <nav className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
-        <a href="#anasayfa" aria-label="OSOTTO ana sayfa" data-testid="link-home"><BrandMark light={!scrolled} /></a>
+        <a href="#anasayfa" onClick={() => setCollectionOpen(false)} aria-label="OSOTTO ana sayfa" data-testid="link-home"><BrandMark light={!scrolled} /></a>
         <div className="hidden items-center gap-7 md:flex">
-          <a href="#anasayfa" className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid="link-home-nav">Ana sayfa</a>
+          <a href="#anasayfa" onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid="link-home-nav">Ana sayfa</a>
           <button type="button" onClick={() => { setCollectionOpen((open) => !open); document.getElementById('koleksiyon')?.scrollIntoView({ behavior: 'smooth' }); }} className="flex items-center gap-1 font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" aria-expanded={collectionOpen} data-testid="link-Koleksiyon">Koleksiyon <ChevronDown size={13} strokeWidth={1.2} className={`transition-transform ${collectionOpen ? 'rotate-180' : ''}`} /></button>
-          {links.slice(1).map(([label, href]) => <a key={href} href={href} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid={`link-${label}`}>{label}</a>)}
+          {links.slice(1).map(([label, href]) => <a key={href} href={href} onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid={`link-${label}`}>{label}</a>)}
         </div>
         <div className="flex items-center gap-5">
-          <a href="#iletisim" className="hidden border-b border-current pb-1 font-mono-ui text-[10px] uppercase tracking-[.16em] md:block" data-testid="link-quote-nav">Teklif alın</a>
-          <a href="#bayimiz" className="hidden bg-[#b86b4b] px-3 py-2 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#f3eee6] transition-colors hover:bg-[#d9a387] md:block" data-testid="link-dealer-nav">Bayimiz olun</a>
+          <a href="#iletisim" onClick={() => setCollectionOpen(false)} className="hidden border-b border-current pb-1 font-mono-ui text-[10px] uppercase tracking-[.16em] md:block" data-testid="link-quote-nav">Teklif alın</a>
+          <a href="#bayimiz" onClick={() => setCollectionOpen(false)} className="hidden bg-[#b86b4b] px-3 py-2 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#f3eee6] transition-colors hover:bg-[#d9a387] md:block" data-testid="link-dealer-nav">Bayimiz olun</a>
           <button onClick={onMenu} className="md:hidden" aria-label="Menüyü aç" data-testid="button-open-menu"><Menu size={21} strokeWidth={1.4} /></button>
         </div>
       </div>

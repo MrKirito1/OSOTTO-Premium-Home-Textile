@@ -378,7 +378,7 @@ function App() {
   return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Router /></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
 }
 
-export default Appfunction DealerSection() {
+function DealerSection() {
   const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSent(true); };

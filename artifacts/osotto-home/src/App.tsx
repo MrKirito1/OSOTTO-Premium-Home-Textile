@@ -94,26 +94,60 @@ function MobileMenu({ open, onClose, onCollectionSelect }: { open: boolean; onCl
 function Hero() {
   const imageRef = useRef<HTMLImageElement>(null);
   useEffect(() => {
-    const onScroll = () => { if (imageRef.current) imageRef.current.style.transform = `translate3d(0, ${window.scrollY * 0.06}px, 0) scale(1.04)`; };
-    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    const onScroll = () => {
+      if (imageRef.current) imageRef.current.style.transform = `translate3d(0, ${window.scrollY * 0.04}px, 0) scale(1.035)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
   return <section id="anasayfa" className="relative flex min-h-[760px] items-end overflow-hidden bg-[#2b241f] text-[#f3eee6] md:min-h-[100svh]">
-    <img ref={imageRef} src="/images/osotto-hero.jpg" alt="OSOTTO battaniye ile sakin bir yaşam alanı" className="hero-image absolute inset-0 h-full w-full object-cover opacity-70" loading="eager" fetchPriority="high" />
-    <div className="absolute inset-0 bg-gradient-to-r from-[#2b241f]/80 via-[#2b241f]/25 to-transparent" />
-    <div className="absolute inset-0 bg-gradient-to-t from-[#2b241f]/70 via-transparent to-[#2b241f]/10" />
-    <div className="hero-wordmark pointer-events-none absolute inset-x-0 top-[34%] z-[1] text-center font-display text-[clamp(3.2rem,11vw,10rem)] leading-none tracking-[.18em] text-[#f3eee6]/85" aria-hidden="true">OSOTTO</div>
-    <div className="relative mx-auto w-full max-w-[1440px] px-5 pb-16 md:px-10 md:pb-20">
-      <div className="max-w-[780px]">
-        <div className="hero-reveal flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.24em] text-[#e6c0ad]"><span className="h-px w-8 bg-[#b86b4b]" /> OSOTTO / PREMIUM HOME TEXTILE</div>
-        <h1 className="hero-reveal hero-delay-1 font-display mt-6 text-[17vw] leading-[.79] tracking-[-.055em] md:text-[11.5vw]">Eve<br /><i className="font-normal text-[#d9b29c]">iyi</i> gelen.</h1>
-        <div className="hero-reveal hero-delay-2 mt-8 flex max-w-[560px] items-end justify-between gap-8 md:mt-10">
-          <p className="text-balance max-w-[360px] text-[13px] leading-[1.8] text-[#f3eee6]/75 md:text-[14px]">Konforu ve zarafeti yaşam alanınıza taşıyın. Türk ev tekstilini sessiz bir lüksle yeniden yorumluyoruz.</p>
-          <a href="#koleksiyon" className="group hidden shrink-0 items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.16em] md:flex" data-testid="link-explore-collection"><span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f3eee6]/40 transition-colors group-hover:bg-[#f3eee6] group-hover:text-[#2b241f]"><ArrowDownRight size={16} strokeWidth={1.2} /></span> Koleksiyonu keşfet</a>
+    <img
+      ref={imageRef}
+      src="/images/osotto-hero.jpg"
+      alt="OSOTTO premium ev tekstili"
+      className="hero-image absolute inset-0 h-full w-full object-cover opacity-75"
+      loading="eager"
+      fetchPriority="high"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-[#211b17]/72 via-[#2b241f]/18 to-transparent" />
+    <div className="absolute inset-0 bg-gradient-to-t from-[#211b17]/65 via-transparent to-[#2b241f]/10" />
+
+    <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1440px] items-end px-5 pb-16 md:min-h-[100svh] md:px-10 md:pb-20">
+      <div className="max-w-[760px]">
+        <div className="hero-reveal flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.28em] text-[#e6c0ad]">
+          <span className="h-px w-8 bg-[#b86b4b]" />
+          PREMIUM HOME TEXTILE
+        </div>
+
+        <h1 className="hero-reveal hero-delay-1 mt-5 font-display text-[18vw] leading-[.78] tracking-[.02em] text-[#f3eee6] md:text-[10.5vw]">
+          OSOTTO
+        </h1>
+
+        <div className="hero-reveal hero-delay-2 mt-7 flex flex-col gap-7 md:flex-row md:items-end md:justify-between md:gap-12">
+          <div>
+            <p className="max-w-[470px] font-display text-[clamp(1.35rem,2.5vw,2.35rem)] leading-[1.05] tracking-[-.025em]">
+              Modern yaşam alanları için <i className="font-normal text-[#d9b29c]">premium</i> ev tekstili.
+            </p>
+            <p className="mt-5 max-w-[390px] text-[13px] leading-[1.8] text-[#f3eee6]/72 md:text-[14px]">
+              Konfor, kalite ve zamansız tasarımı bir araya getiren OSOTTO koleksiyonunu keşfedin.
+            </p>
+          </div>
+
+          <a href="#koleksiyon" className="group flex w-fit shrink-0 items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.16em]" data-testid="link-explore-collection">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f3eee6]/45 transition-all duration-200 group-hover:bg-[#f3eee6] group-hover:text-[#2b241f]">
+              <ArrowDownRight size={16} strokeWidth={1.2} />
+            </span>
+            Koleksiyonu keşfet
+          </a>
         </div>
       </div>
     </div>
-    <div className="absolute bottom-7 right-5 hidden items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#f3eee6]/50 md:flex"><span className="h-px w-12 bg-[#f3eee6]/30" /> Aşağı kaydır</div>
+
+    <div className="absolute bottom-7 right-5 hidden items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#f3eee6]/50 md:flex">
+      <span className="h-px w-12 bg-[#f3eee6]/30" /> Aşağı kaydır
+    </div>
   </section>;
 }
 

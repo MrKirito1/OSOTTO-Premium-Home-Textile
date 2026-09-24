@@ -32,7 +32,7 @@ function BrandMark({ light = false }: { light?: boolean }) {
 }
 
 function OpeningReveal({ onDone }: { onDone: () => void }) {
-  useEffect(() => { const timer = window.setTimeout(onDone, 650); return () => window.clearTimeout(timer); }, [onDone]);
+  useEffect(() => { const timer = window.setTimeout(onDone, 280); return () => window.clearTimeout(timer); }, [onDone]);
   return (
     <div className="opening-exit fixed inset-0 z-[100] flex items-center justify-center bg-[#2b241f] text-[#f3eee6]" aria-label="OSOTTO yükleniyor">
       <div className="text-center">
@@ -129,10 +129,36 @@ function Intro() {
 
 function ProductCard({ product, onOpen }: { product: Product; onOpen: (product: Product) => void }) {
   const ref = useReveal();
+  const images = product.images?.slice(0, 2) ?? [product.image];
+  const [activeImage, setActiveImage] = useState(0);
+  const pointerStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    setActiveImage(0);
+    pointerStartX.current = null;
+    images.slice(0, 2).forEach((src) => { const image = new Image(); image.src = src; });
+  }, [product.id]);
+
+  const changeImage = (direction: number) => {
+    if (images.length < 2) return;
+    setActiveImage((current) => (current + direction + 2) % 2);
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    pointerStartX.current = event.clientX;
+  };
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (pointerStartX.current === null) return;
+    const delta = event.clientX - pointerStartX.current;
+    pointerStartX.current = null;
+    if (Math.abs(delta) >= 35) changeImage(delta > 0 ? -1 : 1);
+  };
+
   return <article ref={ref} className="product-card reveal group cursor-pointer" onClick={() => onOpen(product)} data-testid={`card-product-${product.id}`}>
-    <div className="relative aspect-[.84] overflow-hidden bg-[#ded4c6]">
-      <img src={product.image} alt={`${product.name} ${product.weight}`} className="product-image h-full w-full object-cover" loading="lazy" />
-      <div className="absolute inset-0 bg-[#2b241f]/0 transition-colors duration-500 group-hover:bg-[#2b241f]/10" />
+    <div className="relative aspect-[.84] touch-pan-y select-none overflow-hidden bg-[#ded4c6]" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onPointerCancel={() => { pointerStartX.current = null; }}>
+      <img src={images[activeImage]} alt={`${product.name} ${product.weight}`} className="product-image h-full w-full object-cover transition-opacity duration-150" loading="lazy" draggable={false} />
+      {images.length > 1 && <><button type="button" className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-[#f3eee6]/80 text-[#2b241f] opacity-0 transition-opacity duration-200 group-hover:opacity-100" onClick={(event) => { event.stopPropagation(); changeImage(-1); }} aria-label="Önceki fotoğraf"><ChevronLeft size={16} /></button><button type="button" className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-[#f3eee6]/80 text-[#2b241f] opacity-0 transition-opacity duration-200 group-hover:opacity-100" onClick={(event) => { event.stopPropagation(); changeImage(1); }} aria-label="Sonraki fotoğraf"><ChevronRight size={16} /></button><div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5 rounded-full bg-[#2b241f]/50 px-2.5 py-1.5">{images.slice(0, 2).map((src, index) => <span key={src} className={`h-1.5 rounded-full transition-all duration-150 ${index === activeImage ? 'w-5 bg-[#f3eee6]' : 'w-1.5 bg-[#f3eee6]/50'}`} />)}</div></>}
+      <div className="absolute inset-0 bg-[#2b241f]/0 transition-colors duration-300 group-hover:bg-[#2b241f]/10" />
       <span className="absolute left-5 top-5 font-mono-ui text-[10px] uppercase tracking-[.18em] text-[#2b241f]">{product.weight}</span>
       <button className="absolute bottom-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-[#f3eee6] text-[#2b241f] opacity-0 transition-opacity duration-300 group-hover:opacity-100" onClick={(event) => { event.stopPropagation(); onOpen(product); }} aria-label={`${product.weight} detayını aç`} data-testid={`button-view-${product.id}`}><ArrowUpRight size={17} strokeWidth={1.3} /></button>
     </div>
@@ -238,7 +264,7 @@ function Footer() {
 function ProductModal({ product, onClose, onQuote }: { product: Product | null; onClose: () => void; onQuote: (product: Product) => void }) {
   const [activeImage, setActiveImage] = useState(0);
   const pointerStartX = useRef<number | null>(null);
-  const images = product?.images ?? (product ? [product.image] : []);
+  const images = product?.images?.slice(0, 2) ?? (product ? [product.image] : []);
 
   useEffect(() => {
     setActiveImage(0);

@@ -343,7 +343,7 @@ function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState<Product | null>(null);
   const [quoteProduct, setQuoteProduct] = useState<Product | null>(null);
-  const [selectedWeight, setSelectedWeight] = useState('4.5 KG');
+  const [selectedWeight, setSelectedWeight] = useState('Tümü');
   const finishLoading = () => setLoading(false);
   const changeWeight = (weight: string) => {
     setSelectedWeight(weight);

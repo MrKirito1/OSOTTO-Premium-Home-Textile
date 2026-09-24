@@ -49,6 +49,14 @@ const weightOptions = ['Tümü', '4.5 KG', '5 KG', '6 KG', '7 KG'];
 function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionSelect: (weight: string) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [collectionOpen, setCollectionOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (collectionOpen && navRef.current && !navRef.current.contains(event.target as Node)) setCollectionOpen(false);
+    };
+    document.addEventListener('mousedown', closeOnOutsideClick);
+    return () => document.removeEventListener('mousedown', closeOnOutsideClick);
+  }, [collectionOpen]);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -56,7 +64,7 @@ function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionS
   }, []);
   const links = [['Koleksiyon', '#koleksiyon'], ['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim']];
   return (
-    <nav className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
+    <nav ref={navRef} className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
         <a href="#anasayfa" onClick={() => setCollectionOpen(false)} aria-label="OSOTTO ana sayfa" data-testid="link-home"><BrandMark light={!scrolled} /></a>
         <div className="hidden items-center gap-7 md:flex">
@@ -283,7 +291,7 @@ function DealerSection() {
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
   };
   const inputClass = 'mt-3 block w-full bg-transparent font-display text-xl text-[#f3eee6] outline-none placeholder:text-[#f3eee6]/30';
-  return <section id="bayimiz" className="relative z-10 min-h-[900px] bg-[#687358] px-5 py-24 text-[#f3eee6] md:px-10 md:py-32"><div className="mx-auto grid max-w-[1180px] gap-16 md:grid-cols-[.85fr_1.15fr] md:gap-28">
+  return <section id="bayimiz" style={{ opacity: 1, visibility: "visible" }} className="relative z-20 min-h-[900px] overflow-visible bg-[#687358] px-5 py-24 text-[#f3eee6] md:px-10 md:py-32"><div className="relative z-20 mx-auto grid max-w-[1180px] gap-16 md:grid-cols-[.85fr_1.15fr] md:gap-28">
     <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d9e3c2]">05 / Bayimiz olun</span><h2 className="font-display mt-7 text-[clamp(3.5rem,6.5vw,7rem)] leading-[.82] tracking-[-.05em]">OSOTTO ile<br /><i className="font-normal text-[#d9e3c2]">büyüyün.</i></h2><p className="mt-9 max-w-[360px] text-[13px] leading-[1.9] text-[#f3eee6]/75">OSOTTO ürünlerini işletmenizde sunmak ve iş ortaklığımız hakkında bilgi almak için başvurun.</p><div className="mt-10 border-t border-[#f3eee6]/25 pt-5 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#f3eee6]/70">Seçili ürünler · Esnek çalışma · Doğrudan iletişim</div></div>
     <div>{sent ? <div className="flex min-h-[520px] flex-col justify-center border-t border-[#f3eee6]/25"><Check size={28} /><h3 className="font-display mt-7 text-5xl">Başvurunuz<br /><i className="font-normal text-[#d9e3c2]">başarıyla alındı.</i></h3><p className="mt-5 text-[13px] text-[#f3eee6]/75">Ekibimiz başvurunuzu inceleyerek sizinle iletişime geçecektir.</p><button onClick={() => setSent(false)} className="mt-8 w-fit border-b border-[#f3eee6]/40 pb-1 font-mono-ui text-[10px] uppercase tracking-[.15em]" data-testid="button-new-dealer">Yeni başvuru</button></div> : <form ref={formRef} onSubmit={submit} className="border-t border-[#f3eee6]/25">
       <div className="grid gap-x-7 md:grid-cols-2"><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Ad Soyad *</span><input required name="name" className={inputClass} placeholder="Ad Soyad" data-testid="dealer-name" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Firma Adı *</span><input required name="company" className={inputClass} placeholder="Firma adı" data-testid="dealer-company" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">E-posta *</span><input required type="email" name="email" className={inputClass} placeholder="ornek@mail.com" data-testid="dealer-email" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Telefon *</span><input required type="tel" name="phone" className={inputClass} placeholder="05xx xxx xx xx" data-testid="dealer-phone" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Ülke *</span><input required name="country" className={inputClass} placeholder="Türkiye" data-testid="dealer-country" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Şehir</span><input name="city" className={inputClass} placeholder="Şehir" data-testid="dealer-city" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Web sitesi</span><input type="url" name="website" className={inputClass} placeholder="https://" data-testid="dealer-website" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Instagram / sosyal medya</span><input name="instagram" className={inputClass} placeholder="@kullanici" data-testid="dealer-instagram" /></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Mağaza / işletme türü</span><select name="businessType" defaultValue="" className={`${inputClass} cursor-pointer`} data-testid="dealer-business"><option value="" className="text-[#2b241f]">Seçiniz</option>{['Mağaza', 'E-ticaret', 'Toptan Satış', 'Distribütör', 'Diğer'].map((item) => <option key={item} value={item} className="text-[#2b241f]">{item}</option>)}</select></label><label className="block border-b border-[#f3eee6]/25 py-4"><span className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#d9e3c2]">Mevcut satış kanalları</span><input name="channels" className={inputClass} placeholder="Mağaza, web, pazar yeri..." data-testid="dealer-channels" /></label></div>
@@ -354,6 +362,10 @@ function Home() {
   useEffect(() => {
     if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+  useEffect(() => {
+    setSelectedWeight('Tümü');
+    window.history.replaceState(null, '', window.location.pathname + window.location.search);
   }, []);
   useEffect(() => {
     const match = window.location.hash.match(/weight=([^&]+)/);

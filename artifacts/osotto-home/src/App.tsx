@@ -62,7 +62,7 @@ function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionS
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
-  const links = [['Koleksiyon', '#koleksiyon'], ['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim']];
+  const links = [['Koleksiyon', '#koleksiyon'], ['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim'], ['Fabrikamızdan', '#fabrikamiz']];
   return (
     <nav ref={navRef} className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
@@ -92,7 +92,7 @@ function MobileMenu({ open, onClose, onCollectionSelect }: { open: boolean; onCl
     <div className="flex items-center justify-between"><BrandMark light /><button onClick={onClose} aria-label="Menüyü kapat" data-testid="button-close-menu"><X size={23} strokeWidth={1.4} /></button></div>
     <div className="mt-28 flex flex-col gap-7">
     <div><a href="#koleksiyon" onClick={onClose} className="font-display text-5xl" data-testid="mobile-link-collection">Koleksiyon</a><div className="mt-5 flex flex-wrap gap-2">{weightOptions.map((weight) => <button type="button" key={weight} onClick={() => { onCollectionSelect(weight); onClose(); }} className="border border-[#f3eee6]/25 px-3 py-2 font-mono-ui text-[9px] uppercase tracking-[.08em]" data-testid={`mobile-weight-${weight.replace(/\W/g, '')}`}>{weight}</button>)}</div></div>
-    {[['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim'], ['Bayimiz olun', '#bayimiz']].map(([label, href], index) =>
+    {[['Hakkımızda', '#hikayemiz'], ['Fabrikamızdan', '#fabrikamiz'], ['İletişim', '#iletisim'], ['Bayimiz olun', '#bayimiz']].map(([label, href], index) =>
         <a key={href} href={href} onClick={onClose} className="font-display text-5xl" data-testid={`mobile-link-${index + 1}`}>{label}</a>)}
     </div>
     <div className="mt-auto flex items-end justify-between"><span className="max-w-[190px] font-mono-ui text-[9px] uppercase leading-relaxed tracking-[.16em] opacity-50">Evin ritmine eşlik eden dokular.</span><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="font-mono-ui text-[10px] uppercase tracking-[.14em]" data-testid="mobile-link-whatsapp">WhatsApp ↗</a></div>
@@ -239,6 +239,30 @@ function Story() {
   </section>;
 }
 
+function FactoryGallery() {
+  const ref = useReveal();
+  const photoSlots = ['Fabrika alanı', 'OSOTTO numuneleri', 'Koli ve paketleme', 'Ürün hazırlığı'];
+  return <section id="fabrikamiz" className="bg-[#e5ddcf] px-5 py-24 md:px-10 md:py-36">
+    <div className="mx-auto max-w-[1240px]">
+      <div ref={ref} className="reveal flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">04 / Üretimden kareler</span><h2 className="font-display mt-5 text-[clamp(3.2rem,7vw,7rem)] leading-[.84] tracking-[-.05em] text-[#2b241f]">Fabrikamızdan<br /><i className="font-normal text-[#b86b4b]">görüntüler.</i></h2></div>
+        <p className="max-w-[330px] text-[12px] leading-[1.9] text-[#65584d] md:pb-2">OSOTTO numunelerinden paketleme ve sevkiyata, üretim sürecimizden gerçek kareler.</p>
+      </div>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-16">
+        {photoSlots.map((label, index) => <div key={label} className="group flex aspect-[4/5] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-photo-slot-${index + 1}`}>
+          <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#b86b4b]/45 text-[#b86b4b]"><Plus size={22} strokeWidth={1.2} /></span>
+          <span className="font-display text-2xl text-[#2b241f]">{label}</span><span className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Fotoğraf alanı</span>
+        </div>)}
+      </div>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        {['OSOTTO paketleme videosu', 'Koli ve sevkiyat videosu'].map((label, index) => <div key={label} className="flex min-h-[190px] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-video-slot-${index + 1}`}>
+          <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#b86b4b]/45 text-[#b86b4b]"><Plus size={20} strokeWidth={1.2} /></span><span className="font-display text-xl text-[#2b241f]">{label}</span><span className="mt-2 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Video alanı</span>
+        </div>)}
+      </div>
+    </div>
+  </section>;
+}
+
 function Stats() {
   const ref = useReveal();
   const [count, setCount] = useState(0);
@@ -300,7 +324,7 @@ function DealerSection() {
 }
 
 function Footer() {
-  return <footer className="bg-[#2b241f] px-5 pb-8 pt-16 text-[#f3eee6] md:px-10 md:pt-20"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-12 md:flex-row"><div><BrandMark light /><p className="mt-7 max-w-[200px] font-display text-3xl leading-[.95] text-[#d9b29c]">Evin dokusuna<br />iyi bakın.</p></div><div className="flex gap-16 font-mono-ui text-[10px] uppercase tracking-[.15em]"><div className="space-y-4"><span className="block text-[#f3eee6]/40">Gezin</span><a href="#koleksiyon" className="block hover:text-[#d9b29c]" data-testid="footer-link-collection">Koleksiyon</a><a href="#hikayemiz" className="block hover:text-[#d9b29c]" data-testid="footer-link-story">Hakkımızda</a><a href="#iletisim" className="block hover:text-[#d9b29c]" data-testid="footer-link-quote">Teklif alın</a><a href="#bayimiz" className="block hover:text-[#d9b29c]" data-testid="footer-link-dealer">Bayimiz olun</a></div><div className="space-y-4"><span className="block text-[#f3eee6]/40">Takip</span><a href="https://www.instagram.com/osottoweb/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-[#d9b29c]" data-testid="footer-link-instagram">Instagram <Instagram size={13} strokeWidth={1.4} /></a><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="block hover:text-[#d9b29c]" data-testid="footer-link-whatsapp">WhatsApp ↗</a></div></div></div><div className="mt-20 flex flex-col justify-between gap-3 border-t border-[#f3eee6]/15 pt-5 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#f3eee6]/40 md:flex-row"><span>© 2026 OSOTTO Tekstil</span><span>Bursa · Türkiye</span><span>İyi hisler için üretildi.</span></div></div></footer>;
+  return <footer className="bg-[#2b241f] px-5 pb-8 pt-16 text-[#f3eee6] md:px-10 md:pt-20"><div className="mx-auto max-w-[1440px]"><div className="flex flex-col justify-between gap-12 md:flex-row"><div><BrandMark light /><p className="mt-7 max-w-[200px] font-display text-3xl leading-[.95] text-[#d9b29c]">Evin dokusuna<br />iyi bakın.</p></div><div className="flex gap-16 font-mono-ui text-[10px] uppercase tracking-[.15em]"><div className="space-y-4"><span className="block text-[#f3eee6]/40">Gezin</span><a href="#koleksiyon" className="block hover:text-[#d9b29c]" data-testid="footer-link-collection">Koleksiyon</a><a href="#hikayemiz" className="block hover:text-[#d9b29c]" data-testid="footer-link-story">Hakkımızda</a><a href="#fabrikamiz" className="block hover:text-[#d9b29c]" data-testid="footer-link-factory">Fabrikamızdan</a><a href="#iletisim" className="block hover:text-[#d9b29c]" data-testid="footer-link-quote">Teklif alın</a><a href="#bayimiz" className="block hover:text-[#d9b29c]" data-testid="footer-link-dealer">Bayimiz olun</a></div><div className="space-y-4"><span className="block text-[#f3eee6]/40">Takip</span><a href="https://www.instagram.com/osottoweb/" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-[#d9b29c]" data-testid="footer-link-instagram">Instagram <Instagram size={13} strokeWidth={1.4} /></a><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="block hover:text-[#d9b29c]" data-testid="footer-link-whatsapp">WhatsApp ↗</a></div></div></div><div className="mt-20 flex flex-col justify-between gap-3 border-t border-[#f3eee6]/15 pt-5 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#f3eee6]/40 md:flex-row"><span>© 2026 OSOTTO Tekstil</span><span>Bursa · Türkiye</span><span>İyi hisler için üretildi.</span></div></div></footer>;
 }
 
 function ProductModal({ product, onClose, onQuote }: { product: Product | null; onClose: () => void; onQuote: (product: Product) => void }) {
@@ -367,7 +391,7 @@ function Home() {
     setSelectedWeight('Tümü');
   }, []);
   useEffect(() => { document.title = 'OSOTTO | Premium Home Textile'; const description = 'OSOTTO premium ev tekstili ve battaniye koleksiyonları. Bursa’dan dünyaya uzanan kaliteli, modern ve iyi hissettiren dokular.'; let meta = document.querySelector('meta[name="description"]'); if (!meta) { meta = document.createElement('meta'); meta.setAttribute('name', 'description'); document.head.appendChild(meta); } meta.setAttribute('content', description); [['og:title', 'OSOTTO | Premium Home Textile'], ['og:description', description], ['og:type', 'website'], ['og:image', 'https://images.pexels.com/photos/5998043/pexels-photo-5998043.jpeg?auto=compress&dpr=1&w=1800']].forEach(([property, content]) => { let tag = document.querySelector(`meta[property="${property}"]`); if (!tag) { tag = document.createElement('meta'); tag.setAttribute('property', property); document.head.appendChild(tag); } tag.setAttribute('content', content); }); }, []);
-  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} onCollectionSelect={changeWeight} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCollectionSelect={changeWeight} /><main><Hero /><Intro /><Collection onOpen={setSelected} selectedWeight={selectedWeight} onWeightChange={changeWeight} /><Story /><Stats /><QuoteSection prefillProduct={quoteProduct} /><DealerSection /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} onQuote={(product) => { setQuoteProduct(product); window.requestAnimationFrame(() => document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' })); }} /></>}</div>;
+  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} onCollectionSelect={changeWeight} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCollectionSelect={changeWeight} /><main><Hero /><Intro /><Collection onOpen={setSelected} selectedWeight={selectedWeight} onWeightChange={changeWeight} /><Story /><FactoryGallery /><Stats /><QuoteSection prefillProduct={quoteProduct} /><DealerSection /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} onQuote={(product) => { setQuoteProduct(product); window.requestAnimationFrame(() => document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' })); }} /></>}</div>;
 }
 
 function Router() {

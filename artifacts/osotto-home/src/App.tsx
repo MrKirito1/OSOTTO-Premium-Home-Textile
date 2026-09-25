@@ -241,22 +241,17 @@ function Story() {
 
 function FactoryGallery() {
   const ref = useReveal();
-  const photoSlots = ['Fabrika alanı', 'OSOTTO numuneleri', 'Koli ve paketleme', 'Ürün hazırlığı'];
-  return <section id="fabrikamiz" className="bg-[#e5ddcf] px-5 py-24 md:px-10 md:py-36">
+  const photoSlots = ['Fabrika fotoğrafı 1', 'Fabrika fotoğrafı 2'];
+  return <section id="fabrikamiz" className="bg-[#e5ddcf] px-5 py-24 md:px-10 md:py-32">
     <div className="mx-auto max-w-[1240px]">
       <div ref={ref} className="reveal flex flex-col justify-between gap-8 md:flex-row md:items-end">
-        <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">04 / Üretimden kareler</span><h2 className="font-display mt-5 text-[clamp(3.2rem,7vw,7rem)] leading-[.84] tracking-[-.05em] text-[#2b241f]">Fabrikamızdan<br /><i className="font-normal text-[#b86b4b]">görüntüler.</i></h2></div>
-        <p className="max-w-[330px] text-[12px] leading-[1.9] text-[#65584d] md:pb-2">OSOTTO numunelerinden paketleme ve sevkiyata, üretim sürecimizden gerçek kareler.</p>
+        <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">Üretimden kareler</span><h2 className="font-display mt-5 text-[clamp(3.2rem,7vw,7rem)] leading-[.84] tracking-[-.05em] text-[#2b241f]">Fabrikamızdan<br /><i className="font-normal text-[#b86b4b]">görüntüler.</i></h2></div>
+        <p className="max-w-[330px] text-[12px] leading-[1.9] text-[#65584d] md:pb-2">Üretim alanımızdan gerçek kareler.</p>
       </div>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 md:mt-16">
-        {photoSlots.map((label, index) => <div key={label} className="group flex aspect-[4/5] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-photo-slot-${index + 1}`}>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 md:mt-16">
+        {photoSlots.map((label, index) => <div key={label} className="group flex aspect-[4/3] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-photo-slot-${index + 1}`}>
           <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#b86b4b]/45 text-[#b86b4b]"><Plus size={22} strokeWidth={1.2} /></span>
-          <span className="font-display text-2xl text-[#2b241f]">{label}</span><span className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Fotoğraf alanı</span>
-        </div>)}
-      </div>
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {['OSOTTO paketleme videosu', 'Koli ve sevkiyat videosu'].map((label, index) => <div key={label} className="flex min-h-[190px] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-video-slot-${index + 1}`}>
-          <span className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-[#b86b4b]/45 text-[#b86b4b]"><Plus size={20} strokeWidth={1.2} /></span><span className="font-display text-xl text-[#2b241f]">{label}</span><span className="mt-2 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Video alanı</span>
+          <span className="font-display text-2xl text-[#2b241f]">{label}</span><span className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Fotoğrafını buraya ekle</span>
         </div>)}
       </div>
     </div>
@@ -391,7 +386,7 @@ function Home() {
     setSelectedWeight('Tümü');
   }, []);
   useEffect(() => { document.title = 'OSOTTO | Premium Home Textile'; const description = 'OSOTTO premium ev tekstili ve battaniye koleksiyonları. Bursa’dan dünyaya uzanan kaliteli, modern ve iyi hissettiren dokular.'; let meta = document.querySelector('meta[name="description"]'); if (!meta) { meta = document.createElement('meta'); meta.setAttribute('name', 'description'); document.head.appendChild(meta); } meta.setAttribute('content', description); [['og:title', 'OSOTTO | Premium Home Textile'], ['og:description', description], ['og:type', 'website'], ['og:image', 'https://images.pexels.com/photos/5998043/pexels-photo-5998043.jpeg?auto=compress&dpr=1&w=1800']].forEach(([property, content]) => { let tag = document.querySelector(`meta[property="${property}"]`); if (!tag) { tag = document.createElement('meta'); tag.setAttribute('property', property); document.head.appendChild(tag); } tag.setAttribute('content', content); }); }, []);
-  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} onCollectionSelect={changeWeight} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCollectionSelect={changeWeight} /><main><Hero /><Intro /><Collection onOpen={setSelected} selectedWeight={selectedWeight} onWeightChange={changeWeight} /><Story /><FactoryGallery /><Stats /><QuoteSection prefillProduct={quoteProduct} /><DealerSection /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} onQuote={(product) => { setQuoteProduct(product); window.requestAnimationFrame(() => document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' })); }} /></>}</div>;
+  return <div className="grain min-h-[100dvh] overflow-x-hidden"><OpeningReveal onDone={finishLoading} />{loading && <div className="pointer-events-none fixed inset-0 z-[99] bg-[#2b241f]" />}{!loading && <><Nav onMenu={() => setMenuOpen(true)} onCollectionSelect={changeWeight} /><MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onCollectionSelect={changeWeight} /><main><Hero /><Intro /><Collection onOpen={setSelected} selectedWeight={selectedWeight} onWeightChange={changeWeight} /><Story /><Stats /><QuoteSection prefillProduct={quoteProduct} /><DealerSection /><FactoryGallery /></main><Footer /><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full bg-[#687358] px-4 py-3 font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#f3eee6] shadow-lg transition-transform hover:-translate-y-1 md:bottom-7 md:right-7" data-testid="button-fixed-whatsapp"><span className="h-1.5 w-1.5 rounded-full bg-[#d9e3c2]" /> WhatsApp</a><ProductModal product={selected} onClose={() => setSelected(null)} onQuote={(product) => { setQuoteProduct(product); window.requestAnimationFrame(() => document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' })); }} /></>}</div>;
 }
 
 function Router() {

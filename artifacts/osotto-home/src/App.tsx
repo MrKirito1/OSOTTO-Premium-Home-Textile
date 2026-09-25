@@ -241,23 +241,25 @@ function Story() {
 
 function FactoryGallery() {
   const ref = useReveal();
-  const photoSlots = ['Fabrika fotoğrafı 1', 'Fabrika fotoğrafı 2'];
+  const factoryPhotos = [
+    { src: '/images/factory-1.jpeg', alt: 'OSOTTO fabrikasında kumaş ruloları' },
+    { src: '/images/factory-2.jpeg', alt: 'OSOTTO sevkiyat alanında yükleme konteyneri' },
+    { src: '/images/factory-3.jpeg', alt: 'OSOTTO ürün kolileri ve sevkiyat hazırlığı' },
+  ];
   return <section id="fabrikamiz" className="bg-[#e5ddcf] px-5 py-24 md:px-10 md:py-32">
     <div className="mx-auto max-w-[1240px]">
-      <div ref={ref} className="reveal flex flex-col justify-between gap-8 md:flex-row md:items-end">
+      <div ref={ref} className="reveal mb-10 flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div><span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#b86b4b]">Üretimden kareler</span><h2 className="font-display mt-5 text-[clamp(3.2rem,7vw,7rem)] leading-[.84] tracking-[-.05em] text-[#2b241f]">Fabrikamızdan<br /><i className="font-normal text-[#b86b4b]">görüntüler.</i></h2></div>
         <p className="max-w-[330px] text-[12px] leading-[1.9] text-[#65584d] md:pb-2">Üretim alanımızdan gerçek kareler.</p>
       </div>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 md:mt-16">
-        {photoSlots.map((label, index) => <div key={label} className="group flex aspect-[4/3] flex-col items-center justify-center border border-dashed border-[#2b241f]/25 bg-[#f3eee6]/45 p-6 text-center transition-colors hover:border-[#b86b4b] hover:bg-[#f3eee6]/75" data-testid={`factory-photo-slot-${index + 1}`}>
-          <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#b86b4b]/45 text-[#b86b4b]"><Plus size={22} strokeWidth={1.2} /></span>
-          <span className="font-display text-2xl text-[#2b241f]">{label}</span><span className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]/70">Fotoğrafını buraya ekle</span>
-        </div>)}
+      <div className="grid gap-4 md:grid-cols-3">
+        {factoryPhotos.map((photo, index) => <figure key={photo.src} className="overflow-hidden bg-[#d8cebf]">
+          <img src={photo.src} alt={photo.alt} className="h-[360px] w-full object-cover md:h-[420px]" loading="lazy" />
+        </figure>)}
       </div>
     </div>
   </section>;
 }
-
 function Stats() {
   const ref = useReveal();
   const [count, setCount] = useState(0);

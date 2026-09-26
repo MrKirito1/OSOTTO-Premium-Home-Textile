@@ -1,0 +1,8 @@
+{
+  "outputDirectory": "dist",
+  "functions": {
+    "api/quote.ts": {
+      "maxDuration": 30
+    }
+  }
+}

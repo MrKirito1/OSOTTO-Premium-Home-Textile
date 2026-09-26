@@ -286,7 +286,7 @@ function QuoteSection({ prefillProduct }: { prefillProduct: Product | null }) {
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'dealer', ...payload }),
+        body: JSON.stringify({ type: 'quote', ...payload }),
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.error || 'Başvuru gönderilemedi. Lütfen tekrar deneyin.');
@@ -319,7 +319,33 @@ function DealerSection() {
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
-  const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSent(true); };
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!formRef.current || sending) return;
+    setSending(true);
+    setSubmitError('');
+    const formData = new FormData(formRef.current);
+    const payload: Record<string, string | string[]> = {};
+    for (const [key, value] of formData.entries()) {
+      const textValue = String(value);
+      if (key in payload) payload[key] = [...(Array.isArray(payload[key]) ? payload[key] as string[] : [payload[key] as string]), textValue];
+      else payload[key] = textValue;
+    }
+    try {
+      const response = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'dealer', ...payload }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'Başvuru gönderilemedi. Lütfen tekrar deneyin.');
+      setSent(true);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Bir hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setSending(false);
+    }
+  };
   const openWhatsApp = () => {
     if (!formRef.current) return;
     const data = new FormData(formRef.current);

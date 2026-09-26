@@ -64,12 +64,12 @@ function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionS
   }, []);
   const links = [['Koleksiyon', '#koleksiyon'], ['Hakkımızda', '#hikayemiz'], ['İletişim', '#iletisim']];
   return (
-    <nav ref={navRef} className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
+    <nav ref={navRef} onMouseLeave={() => setCollectionOpen(false)} className={`fixed left-0 top-0 z-50 w-full border-b border-transparent px-5 py-5 transition-all duration-500 md:px-10 md:py-6 ${scrolled ? 'nav-scrolled' : 'text-[#f3eee6]'}`}>
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
         <a href="#anasayfa" onClick={() => setCollectionOpen(false)} aria-label="OSOTTO ana sayfa" data-testid="link-home"><BrandMark light={!scrolled} /></a>
         <div className="hidden items-center gap-7 md:flex">
           <a href="#anasayfa" onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid="link-home-nav">Ana sayfa</a>
-          <button type="button" onClick={() => { setCollectionOpen((open) => !open); document.getElementById('koleksiyon')?.scrollIntoView({ behavior: 'smooth' }); }} className="flex items-center gap-1 font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" aria-expanded={collectionOpen} data-testid="link-Koleksiyon">Koleksiyon <ChevronDown size={13} strokeWidth={1.2} className={`transition-transform ${collectionOpen ? 'rotate-180' : ''}`} /></button>
+          <button type="button" onMouseEnter={() => setCollectionOpen(true)} onClick={() => { setCollectionOpen((open) => !open); document.getElementById('koleksiyon')?.scrollIntoView({ behavior: 'smooth' }); }} className="flex items-center gap-1 font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" aria-expanded={collectionOpen} data-testid="link-Koleksiyon">Koleksiyon <ChevronDown size={13} strokeWidth={1.2} className={`transition-transform ${collectionOpen ? 'rotate-180' : ''}`} /></button>
           {links.slice(1).map(([label, href]) => <a key={href} href={href} onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[10px] uppercase tracking-[.18em] opacity-80 transition-opacity hover:opacity-100" data-testid={`link-${label}`}>{label}</a>)}
         </div>
         <div className="flex items-center gap-5">
@@ -78,7 +78,7 @@ function Nav({ onMenu, onCollectionSelect }: { onMenu: () => void; onCollectionS
           <button onClick={onMenu} className="md:hidden" aria-label="Menüyü aç" data-testid="button-open-menu"><Menu size={21} strokeWidth={1.4} /></button>
         </div>
       </div>
-      {collectionOpen && <div className="absolute left-1/2 top-full mt-3 w-[min(92vw,540px)] -translate-x-1/2 border border-[#2b241f]/10 bg-[#f3eee6]/95 p-5 text-[#2b241f] shadow-[0_18px_50px_rgba(51,38,27,.14)] backdrop-blur-md">
+      {collectionOpen && <div className="absolute left-1/2 top-full mt-3 w-[min(92vw,540px)] -translate-x-1/2 origin-top animate-[collectionDrop_.28s_cubic-bezier(.2,.8,.2,1)] border border-[#2b241f]/10 bg-[#f3eee6]/95 p-5 text-[#2b241f] shadow-[0_18px_50px_rgba(51,38,27,.14)] backdrop-blur-md" onMouseEnter={() => setCollectionOpen(true)}>
         <div className="mb-4 flex items-end justify-between gap-4"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#b86b4b]">OSOTTO koleksiyonu</span><p className="mt-2 font-display text-2xl">Ağırlığını seç.</p></div><button type="button" onClick={() => setCollectionOpen(false)} className="font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#65584d]">Kapat</button></div>
         <div className="grid grid-cols-5 gap-2">{weightOptions.map((weight) => <button type="button" key={weight} onClick={() => { onCollectionSelect(weight); setCollectionOpen(false); }} className="border border-[#2b241f]/15 px-2 py-4 font-mono-ui text-[9px] uppercase tracking-[.08em] transition-colors hover:border-[#b86b4b] hover:bg-[#b86b4b] hover:text-[#f3eee6]" data-testid={`nav-weight-${weight.replace(/\W/g, '')}`}>{weight}</button>)}</div>
       </div>}

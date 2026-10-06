@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'E-posta servisi henüz yapılandırılmadı.' });
+    return res.status(500).json({ error: 'Vercel Production ortamında RESEND_API_KEY bulunamadı.' });
   }
 
   const body = req.body || {};
@@ -71,12 +71,13 @@ export default async function handler(req, res) {
     const result = await response.json().catch(() => ({}));
     if (!response.ok) {
       console.error('Resend error', result);
-      return res.status(502).json({ error: 'E-posta gönderilemedi. Lütfen biraz sonra tekrar deneyin.' });
+      const safeMessage = typeof result?.message === 'string' ? result.message : 'Resend e-posta servisi isteği reddetti.';
+      return res.status(502).json({ error: safeMessage });
     }
 
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error('Email request failed', error);
-    return res.status(500).json({ error: 'E-posta gönderimi sırasında hata oluştu.' });
+    return res.status(500).json({ error: 'Resend servisine bağlanırken hata oluştu.' });
   }
 }
